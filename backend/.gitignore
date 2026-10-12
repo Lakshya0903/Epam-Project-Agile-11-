@@ -13,5 +13,9 @@ db.sqlite3
 .coverage
 htmlcov/
 
+# Static files
+staticfiles/
+
 # Environment variables
 .env
+!.env.example
