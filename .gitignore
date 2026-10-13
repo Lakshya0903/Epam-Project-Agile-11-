@@ -1,6 +1,7 @@
 # Environment variables and secrets
 .env
 .env.*
+!.env.example
 
 # IDE
 .vscode/
@@ -9,3 +10,6 @@
 # macOS
 .DS_Store
 .AppleDouble
+
+#doc
+/docs
