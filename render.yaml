@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: epam-agile-backend
+    runtime: python
+    rootDir: backend          # All commands run from the backend/ folder
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn config.wsgi:application --bind 0.0.0.0:$PORT --workers 2 --timeout 120"
+    healthCheckPath: /admin/
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.0
+      - key: DEBUG
+        value: "False"
+      - key: SECRET_KEY
+        generateValue: true   # Render auto-generates a secure random value
+      - key: ALLOWED_HOSTS
+        value: ".onrender.com"   # Update after you get your Render URL
+      - key: CSRF_TRUSTED_ORIGINS
+        value: "https://epam-agile-backend.onrender.com"  # Update to your actual Render URL
+      - key: DATABASE_URL
+        value: ""             # Paste your Neon PostgreSQL URL here in the Render dashboard
