@@ -1,15 +1,56 @@
-# Environment variables and secrets
+# Environment variables
 .env
 .env.*
 !.env.example
+backend/.env
+backend/.env.*
+!backend/.env.example
 
-# IDE
+# Python virtual environment & interpreter
+venv/
+.venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# Byte-code / caches
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Testing & coverage
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+nosetests.xml
+coverage.xml
+
+# Databases (Local dev SQLite)
+*.db
+*.sqlite
+*.sqlite3
+farmcart.db
+backend/farmcart.db
+farm2market.db
+backend/farm2market.db
+
+# IDE and OS artifacts
 .vscode/
 .idea/
-
-# macOS
+*.swp
+*.swo
 .DS_Store
-.AppleDouble
+Thumbs.db
+desktop.ini
 
-#doc
-
+# Build and distribution
+build/
+dist/
+*.egg-info/
+.eggs/
