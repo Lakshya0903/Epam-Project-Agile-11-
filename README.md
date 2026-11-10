@@ -28,23 +28,23 @@ Farmer/FPO -> Register/Login -> Add Produce -> List on Platform
 
 To ensure engineering transparency, the table below documents the exact implementation status of each system component:
 
-| Feature Component | Implementation Status | Implementation Details / Verification |
-|---|:---:|---|
-| **Farmer Registration & Profiles** | **Verified Implemented** | Full ORM persistence in `users` and `farmer_profiles` tables (`routers/auth.py`). |
-| **Buyer Registration & Profiles** | **Verified Implemented** | Supports `individual` and `bulk` buyer types (`routers/auth.py`). |
-| **Produce Catalog & Inventory** | **Verified Implemented** | Full CRUD, quantity reservation, auto status change to `sold_out` (`routers/produce.py`). |
-| **Smart Order Engine** | **Verified Implemented** | Inventory checks, total amount calculation, bulk vs individual branching (`services/order_engine.py`). |
-| **Smart Batching Engine** | **Verified Implemented** | Groups by normalized area key & delivery slot, 25 kg minimum threshold (`services/batch_engine.py`). |
-| **Direct Delivery Opt-Out** | **Verified Implemented** | Allows individual buyer to exit batch queue for +25% delivery surcharge (`routers/orders.py`). |
-| **Logistics Partner Selection** | **Verified Implemented** | Filter by vehicle capacity, cold-chain capability, cheapest cost + rating (`services/logistics_engine.py`). |
-| **Route Optimization** | **Verified Implemented** | Nearest-neighbour heuristic visiting unique farmer pickups then buyer dropoffs. |
-| **Delivery Confirmation & OTP** | **Verified Implemented** | 6-digit OTP generation, delivery verification endpoint (`services/payment_engine.py`). |
-| **Payment Settlement** | **Verified Implemented** | Atomic ledger split: Farmer share, Logistics fee, Platform fee (`services/payment_engine.py`). |
-| **Platform Revenue Dashboard** | **Verified Implemented** | Aggregated revenue query for admin role at `GET /platform/revenue` (`routers/payments.py`). |
-| **Multilingual Frontend** | **Verified Implemented** | 10 Indian languages supported via `frontend/js/lang.js` dictionary without build tools. |
-| **Real Geocoding / Routing API** | *Roadmap / Planned* | Currently uses Haversine formula with stable pseudo-distance fallback (`utils/geo.py`). |
-| **Production Payment Gateway** | *Roadmap / Planned* | Currently uses internal ledger bookkeeping; external UPI/Razorpay integration planned for Phase 2. |
-| **Live Agmarknet / Mandi API Sync**| *Roadmap / Planned* | Analytical modeling created; real-time scheduled scraping/API sync planned for Phase 2. |
+| Feature Component                   |  Implementation Status   | Implementation Details / Verification                                                                       |
+| ----------------------------------- | :----------------------: | ----------------------------------------------------------------------------------------------------------- |
+| **Farmer Registration & Profiles**  | **Verified Implemented** | Full ORM persistence in `users` and `farmer_profiles` tables (`routers/auth.py`).                           |
+| **Buyer Registration & Profiles**   | **Verified Implemented** | Supports `individual` and `bulk` buyer types (`routers/auth.py`).                                           |
+| **Produce Catalog & Inventory**     | **Verified Implemented** | Full CRUD, quantity reservation, auto status change to `sold_out` (`routers/produce.py`).                   |
+| **Smart Order Engine**              | **Verified Implemented** | Inventory checks, total amount calculation, bulk vs individual branching (`services/order_engine.py`).      |
+| **Smart Batching Engine**           | **Verified Implemented** | Groups by normalized area key & delivery slot, 25 kg minimum threshold (`services/batch_engine.py`).        |
+| **Direct Delivery Opt-Out**         | **Verified Implemented** | Allows individual buyer to exit batch queue for +25% delivery surcharge (`routers/orders.py`).              |
+| **Logistics Partner Selection**     | **Verified Implemented** | Filter by vehicle capacity, cold-chain capability, cheapest cost + rating (`services/logistics_engine.py`). |
+| **Route Optimization**              | **Verified Implemented** | Nearest-neighbour heuristic visiting unique farmer pickups then buyer dropoffs.                             |
+| **Delivery Confirmation & OTP**     | **Verified Implemented** | 6-digit OTP generation, delivery verification endpoint (`services/payment_engine.py`).                      |
+| **Payment Settlement**              | **Verified Implemented** | Atomic ledger split: Farmer share, Logistics fee, Platform fee (`services/payment_engine.py`).              |
+| **Platform Revenue Dashboard**      | **Verified Implemented** | Aggregated revenue query for admin role at `GET /platform/revenue` (`routers/payments.py`).                 |
+| **Multilingual Frontend**           | **Verified Implemented** | 10 Indian languages supported via `frontend/js/lang.js` dictionary without build tools.                     |
+| **Real Geocoding / Routing API**    |   _Roadmap / Planned_    | Currently uses Haversine formula with stable pseudo-distance fallback (`utils/geo.py`).                     |
+| **Production Payment Gateway**      |   _Roadmap / Planned_    | Currently uses internal ledger bookkeeping; external UPI/Razorpay integration planned for Phase 2.          |
+| **Live Agmarknet / Mandi API Sync** |   _Roadmap / Planned_    | Analytical modeling created; real-time scheduled scraping/API sync planned for Phase 2.                     |
 
 ---
 
@@ -137,13 +137,16 @@ farmcart/
 ### Option A: Local Development with SQLite (Fastest — No external DB needed)
 
 1. **Navigate to the backend directory and set up environment:**
+
    ```bash
    cd backend
    copy .env.example .env     # On Linux/macOS: cp .env.example .env
    ```
-   *(By default, `.env` points to `sqlite:///./farmcart.db` for instant local execution).*
+
+   _(By default, `.env` points to `sqlite:///./farmcart.db` for instant local execution)._
 
 2. **Activate Python Virtual Environment & Install Dependencies:**
+
    ```bash
    python -m venv venv
    .\venv\Scripts\activate    # On Linux/macOS: source venv/bin/activate
@@ -151,11 +154,13 @@ farmcart/
    ```
 
 3. **Seed Database with Test Accounts and Partners:**
+
    ```bash
    python seed.py
    ```
 
 4. **Launch the FastAPI Server:**
+
    ```bash
    uvicorn app.main:app --reload --port 8000
    ```
@@ -182,11 +187,11 @@ docker compose exec backend python seed.py
 
 When `seed.py` is executed, the following pre-configured test accounts are available:
 
-| Role | Email | Password | Pre-configured Data |
-|---|---|---|---|
-| **Farmer** | `farmer@test.com` | `Test123!` | Farm profile in Delhi, ready to list produce |
-| **Buyer (Individual)** | `buyer@test.com` | `Test123!` | Individual household profile in Delhi |
-| **Logistics Admin** | `logistics@test.com` | `Test123!` | 4 fleet vehicles (Truck, Mini Truck, Van, Bike) |
+| Role                   | Email                | Password   | Pre-configured Data                             |
+| ---------------------- | -------------------- | ---------- | ----------------------------------------------- |
+| **Farmer**             | `farmer@test.com`    | `Test123!` | Farm profile in Delhi, ready to list produce    |
+| **Buyer (Individual)** | `buyer@test.com`     | `Test123!` | Individual household profile in Delhi           |
+| **Logistics Admin**    | `logistics@test.com` | `Test123!` | 4 fleet vehicles (Truck, Mini Truck, Van, Bike) |
 
 ---
 
@@ -211,5 +216,6 @@ python -m unittest tests.test_payments
 ## 7. Quality Assurance & Phase 1 Team Deliverables
 
 For the full 11-member team work breakdown, file ownership map, and PR instructions, consult:
+
 - [`Phase 1/README.md`](file:///f:/Work-neimar/farm2market/Farm2Market/Phase%201/README.md)
 - [`Phase 1/TEAM_FILE_MAP.md`](file:///f:/Work-neimar/farm2market/Farm2Market/Phase%201/TEAM_FILE_MAP.md)
