@@ -1,7 +1,7 @@
 # FarmCart
 
 **Direct Farm-to-Consumer Marketplace**
-
+  
 Full-stack reference platform connecting farmers and Farmer Producer Organizations (FPOs) directly with consumers, retailers, and bulk buyers.
 
 ```text
