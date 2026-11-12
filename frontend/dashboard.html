@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title data-i18n="dashboard_title">Dashboard — FarmCart</title>
+
+<link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<!-- ================= TOP BAR ================= -->
+
+<div class="topbar">
+
+  <div class="brand">
+    <span class="mark"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#173322"><path d="m138-80-57-57 97-97q-29-29-43.5-66T120-377q0-41 15-77t43-64l57-56 28 28q5-32 19-61t37-52l57-56 28 28q5-32 19.5-61t37.5-52l114-113 56 56-56 57q23 23 37 52t19 61l193-193 56 57-192 193q32 5 61 19t52 37l56-57 57 57-112 113q-23 24-53 38.5T687-403l28 27-56 56q-23 23-52.5 37.5T545-263l29 28-57 57q-29 29-65.5 43.5T375-120q-34 0-68.5-14.5T236-179l-98 99Zm97-212q17-17 26-38.5t9-45.5q0-23-9-45.5T235-461q-17 17-26.5 39.5T199-376q0 24 9.5 45.5T235-292Zm141 93q24-1 46-10t39-26q-17-17-39.5-26t-45.5-9q-23 0-45.5 9.5T291-234q17 17 39 26t46 9Zm0-234q17-17 26-39t9-45q0-24-9-46t-26-39q-17 17-26.5 39t-9.5 46q0 23 9.5 45t26.5 39Zm142 93q24 0 45.5-9.5T602-376q-17-17-38.5-26t-45.5-9q-24 0-46 9.5T433-375q17 17 39 26t46 9Zm0-234q17-17 25.5-39t8.5-46q0-23-8.5-45.5T518-744q-17 17-26.5 39.5T482-659q0 24 9.5 46t26.5 39Zm141 92q23 0 45.5-9.5T744-518q-18-17-40.5-26t-45.5-9q-23 1-45 10t-39 26q17 17 39.5 26.5T659-482Z"/></svg></span>
+    <span data-i18n="brand">FarmCart</span>
+  </div>
+
+  <nav>
+    <span class="role-badge" id="role-badge">—</span>
+
+    <span id="user-name" class="small-note"></span>
+
+    <button class="btn-link" onclick="Auth.logout()" data-i18n="btn_logout">
+      Log out
+    </button>
+  </nav>
+
+</div>
+
+
+<div class="shell">
+
+
+  <!-- ================================================= -->
+  <!--                    FARMER VIEW                    -->
+  <!-- ================================================= -->
+
+  <section id="farmer-view" style="display:none;">
+
+    <span class="eyebrow" data-i18n="farmer_title">
+      Farmer / FPO
+    </span>
+
+    <h1 data-i18n="manage_products">
+      Manage your products
+    </h1>
+
+
+    <div class="grid grid-2" style="align-items:flex-start;">
+
+
+      <!-- ADD PRODUCE -->
+
+      <div class="card">
+
+        <h3 data-i18n="add_product">
+          Add product details
+        </h3>
+
+        <form id="produce-form">
+
+          <label data-i18n="product_name">
+            Product name
+          </label>
+
+          <input
+            type="text"
+            id="p-name"
+            required
+            placeholder="Tomatoes"
+          >
+
+
+          <div class="field-row">
+
+            <div>
+
+              <label data-i18n="quantity">
+                Quantity
+              </label>
+
+              <input
+                type="number"
+                id="p-qty"
+                min="0.1"
+                step="0.1"
+                required
+              >
+
+            </div>
+
+
+            <div>
+
+              <label data-i18n="unit">
+                Unit
+              </label>
+
+              <select id="p-unit">
+
+                <option value="kg">
+                  kg
+                </option>
+
+                <option value="quintal">
+                  quintal
+                </option>
+
+                <option value="ton">
+                  ton
+                </option>
+
+                <option value="dozen">
+                  dozen
+                </option>
+
+                <option value="litre">
+                  litre
+                </option>
+
+              </select>
+
+            </div>
+
+          </div>
+
+
+          <div class="field-row">
+
+            <div>
+
+              <label data-i18n="quality_grade">
+                Quality grade
+              </label>
+
+              <select id="p-grade">
+
+                <option>A</option>
+                <option>B</option>
+                <option>C</option>
+
+              </select>
+
+            </div>
+
+
+            <div>
+
+              <label data-i18n="price_per_unit">
+                Price per unit (₹)
+              </label>
+
+              <input
+                type="number"
+                id="p-price"
+                min="0.1"
+                step="0.1"
+                required
+              >
+
+            </div>
+
+          </div>
+
+
+          <label data-i18n="available_date">
+            Available date
+          </label>
+
+          <input
+            type="date"
+            id="p-date"
+          >
+
+
+          <label data-i18n="label_pickup_location">
+            Pickup location
+          </label>
+
+          <input
+            type="text"
+            id="p-location"
+            required
+            placeholder="Village, District"
+            data-i18n-placeholder="placeholder_pickup"
+          >
+
+
+          <button
+            class="btn full"
+            style="margin-top:20px;"
+            type="submit"
+            data-i18n="btn_list_product"
+          >
+            List on platform
+          </button>
+
+
+          <div id="produce-msg"></div>
+
+        </form>
+
+      </div>
+
+
+      <!-- MY PRODUCE -->
+
+      <div class="card">
+
+        <h3>
+          My listed products
+        </h3>
+
+        <div
+          id="my-produce-list"
+          class="grid"
+          style="gap:12px;"
+        ></div>
+
+      </div>
+
+    </div>
+
+
+    <h2 style="margin-top:44px;">
+      Incoming product orders
+    </h2>
+
+    <p class="small-note">
+
+      Orders update automatically as buyers purchase your
+      listed products — check the Orders tab from any buyer
+      view, or ask your team to check platform admin for
+      full visibility.
+
+    </p>
+
+  </section>
+
+
+
+  <!-- ================================================= -->
+  <!--                     BUYER VIEW                    -->
+  <!-- ================================================= -->
+
+  <section id="buyer-view" style="display:none;">
+
+    <span
+      class="eyebrow"
+      id="buyer-type-label"
+    >
+      Buyer
+    </span>
+
+    <h1 data-i18n="marketplace_title">
+      Marketplace
+    </h1>
+
+
+    <!-- BUYER TABS -->
+
+    <div class="tabs">
+
+      <div
+        class="tab active"
+        data-btab="market"
+      >
+        Browse products
+      </div>
+
+
+      <div
+        class="tab"
+        data-btab="cart"
+      >
+        Cart
+
+        <span
+          id="cart-count"
+          class="mono"
+        ></span>
+
+      </div>
+
+
+      <div
+        class="tab"
+        data-btab="orders"
+      >
+        My orders
+      </div>
+
+    </div>
+
+
+
+    <!-- ================= MARKET ================= -->
+
+    <div id="btab-market">
+
+      <input
+        type="text"
+        id="search-box"
+        placeholder="Search products (e.g. tomatoes, wheat, milk)..."
+        style="max-width:360px; margin-bottom:20px;"
+      >
+
+
+      <div
+        id="marketplace-list"
+        class="grid grid-3"
+      ></div>
+
+    </div>
+
+
+
+    <!-- ================= CART ================= -->
+
+    <div
+      id="btab-cart"
+      style="display:none;"
+    >
+
+      <div class="card">
+
+        <h3>
+          Your cart
+        </h3>
+
+
+        <table id="cart-table">
+
+          <thead>
+
+            <tr>
+
+              <th>
+                Item
+              </th>
+
+              <th>
+                Qty
+              </th>
+
+              <th>
+                Price/unit
+              </th>
+
+              <th>
+                Subtotal
+              </th>
+
+              <th></th>
+
+            </tr>
+
+          </thead>
+
+
+          <tbody id="cart-body"></tbody>
+
+        </table>
+
+
+        <div
+          id="cart-total"
+          style="
+            margin-top:14px;
+            font-family:'JetBrains Mono',monospace;
+            font-size:1.1rem;
+          "
+        ></div>
+
+
+
+        <!-- DELIVERY DETAILS -->
+
+        <h3 style="margin-top:28px;">
+          Delivery details
+        </h3>
+
+
+        <label>
+          Delivery location
+        </label>
+
+        <input
+          type="text"
+          id="delivery-location"
+          placeholder="Area, City"
+        >
+
+
+        <div class="field-row">
+
+          <div>
+
+            <label>
+              Delivery date
+            </label>
+
+            <input
+              type="date"
+              id="delivery-date"
+            >
+
+          </div>
+
+
+          <div>
+
+            <label>
+              Delivery slot
+            </label>
+
+            <select id="delivery-slot-time">
+
+              <option value="morning">
+                Morning
+              </option>
+
+              <option value="afternoon">
+                Afternoon
+              </option>
+
+              <option value="evening">
+                Evening
+              </option>
+
+            </select>
+
+          </div>
+
+        </div>
+
+
+        <button
+          class="btn full"
+          style="margin-top:20px;"
+          id="place-order-btn"
+        >
+          Place order
+        </button>
+
+
+        <div id="order-msg"></div>
+
+      </div>
+
+    </div>
+
+
+
+    <!-- ================= BUYER ORDERS ================= -->
+
+    <div
+      id="btab-orders"
+      style="display:none;"
+    >
+
+      <div id="orders-list"></div>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- ================================================= -->
+  <!--                LOGISTICS VIEW                     -->
+  <!-- ================================================= -->
+
+  <section
+    id="logistics-view"
+    style="display:none;"
+  >
+
+    <span class="eyebrow">
+      Logistics
+    </span>
+
+    <h1>
+      Delivery fleet
+    </h1>
+
+
+    <!-- ================= PARTNER SECTION ================= -->
+
+    <div
+      class="grid grid-2"
+      style="align-items:flex-start;"
+    >
+
+
+      <!-- REGISTER PARTNER -->
+
+      <div class="card">
+
+        <h3>
+          Register a logistics partner
+        </h3>
+
+
+        <form id="partner-form">
+
+
+          <label>
+            Partner / fleet name
+          </label>
+
+          <input
+            type="text"
+            id="lp-name"
+            required
+          >
+
+
+
+          <div class="field-row">
+
+            <div>
+
+              <label>
+                Vehicle type
+              </label>
+
+              <select id="lp-vehicle">
+
+                <option value="truck">
+                  Truck
+                </option>
+
+                <option value="mini_truck">
+                  Mini truck
+                </option>
+
+                <option value="van">
+                  Van
+                </option>
+
+                <option value="bike">
+                  Bike
+                </option>
+
+              </select>
+
+            </div>
+
+
+            <div>
+
+              <label>
+                Capacity (kg)
+              </label>
+
+              <input
+                type="number"
+                id="lp-capacity"
+                min="1"
+                required
+              >
+
+            </div>
+
+          </div>
+
+
+
+          <div class="field-row">
+
+            <div>
+
+              <label>
+                Cost per km (₹)
+              </label>
+
+              <input
+                type="number"
+                id="lp-cost-km"
+                min="0"
+                step="0.5"
+                required
+              >
+
+            </div>
+
+
+            <div>
+
+              <label>
+                Base cost (₹)
+              </label>
+
+              <input
+                type="number"
+                id="lp-base-cost"
+                min="0"
+                step="1"
+                value="0"
+              >
+
+            </div>
+
+          </div>
+
+
+
+          <label>
+
+            <input
+              type="checkbox"
+              id="lp-cold-chain"
+              style="
+                width:auto;
+                display:inline-block;
+                margin-right:8px;
+              "
+            >
+
+            Supports cold chain
+
+          </label>
+
+
+
+          <label>
+            Current location / depot
+          </label>
+
+          <input
+            type="text"
+            id="lp-location"
+            placeholder="City Depot"
+          >
+
+
+
+          <button
+            class="btn full"
+            style="margin-top:20px;"
+            type="submit"
+          >
+            Add partner
+          </button>
+
+
+          <div id="partner-msg"></div>
+
+        </form>
+
+      </div>
+
+
+
+      <!-- REGISTERED PARTNERS -->
+
+      <div class="card">
+
+        <h3>
+          Registered partners
+        </h3>
+
+
+        <table>
+
+          <thead>
+
+            <tr>
+
+              <th>
+                Name
+              </th>
+
+              <th>
+                Vehicle
+              </th>
+
+              <th>
+                Capacity
+              </th>
+
+              <th>
+                ₹/km
+              </th>
+
+            </tr>
+
+          </thead>
+
+
+          <tbody id="partners-body"></tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+
+
+
+    <!-- ================================================= -->
+    <!--              ASSIGNED DELIVERIES                 -->
+    <!-- ================================================= -->
+
+    <div
+      class="card"
+      style="margin-top:32px;"
+    >
+
+      <h3>
+        Assigned deliveries
+      </h3>
+
+
+      <p class="small-note">
+        Orders assigned to the logistics team will appear here.
+      </p>
+
+
+      <div id="logistics-orders">
+
+        <p class="small-note">
+          Loading deliveries...
+        </p>
+
+      </div>
+
+    </div>
+
+
+  </section>
+
+</div>
+
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+  FarmCart — Direct Farm-to-Consumer Marketplace
+  (FastAPI + PostgreSQL / SQLite)
+
+</footer>
+
+
+
+<!-- ================= JAVASCRIPT ================= -->
+
+<script src="js/api.js"></script>
+
+<script src="js/dashboard.js"></script>
+
+<script src="js/lang.js"></script>
+
+</body>
+</html>
