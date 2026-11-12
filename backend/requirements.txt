@@ -14,3 +14,4 @@ email-validator>=2.0.0
 # Testing & API Client Dependencies
 pytest>=8.0.0
 httpx>=0.27.0
+alembic>=1.13.0
