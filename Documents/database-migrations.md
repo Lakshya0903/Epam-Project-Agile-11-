@@ -6,6 +6,8 @@
 
 ---
 
+
+
 ## 1. Relational Entity Relationship (ER) Model
 
 The FarmCart schema is structured around transactional integrity and strict foreign-key relationships:
