@@ -203,6 +203,8 @@ def assign_logistics_for_order(
     delivery = models.Delivery(
         order_id=order.id,
         logistics_partner_id=partner_id,
+        delivery_mode=order.delivery_mode or "home_delivery",
+        drop_point_id=order.drop_point_id,
         distance_km=distance,
         delivery_cost=delivery_cost,
         otp=generate_otp(),
@@ -250,6 +252,8 @@ def assign_logistics_for_batch(
         delivery = models.Delivery(
             order_id=order.id,
             logistics_partner_id=partner.id,
+            delivery_mode=batch.delivery_mode or order.delivery_mode or "home_delivery",
+            drop_point_id=batch.drop_point_id or order.drop_point_id,
             distance_km=round(total_distance * (order_weight / total_weight), 2),
             delivery_cost=share_cost,
             otp=generate_otp(),
