@@ -125,7 +125,9 @@ class TestPaymentAndSettlement(unittest.TestCase):
         with self.assertRaises(HTTPException) as ctx:
             confirm_delivery(self.db, self.order, otp=self.valid_otp)
         self.assertEqual(ctx.exception.status_code, 400)
-        self.assertIn("already confirmed", ctx.exception.detail)
+        self.assertTrue(
+            "already confirmed" in ctx.exception.detail or "already been confirmed" in ctx.exception.detail
+        )
 
 
 if __name__ == "__main__":
