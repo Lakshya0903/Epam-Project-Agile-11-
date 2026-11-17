@@ -1,0 +1,12 @@
+docs(ml): assess AI/ML feasibility for batch optimization and validate deterministic baseline
+
+Evaluate whether machine learning is necessary or beneficial for Phase 2 delivery batching and route optimization, reviewing the deterministic business rule engine and documenting justified architectural recommendations.
+
+- Evaluated deterministic dual-capacity batching vs ML clustering heuristics.
+- Validated nearest-neighbor logistics routing vs complex VRP neural models.
+- Documented data quality prerequisites and cold-start risks for agricultural logistics.
+- Justified retention of deterministic engine for Phase 2 with roadmap for Phase 3 ML in docs/ml-feasibility-report.md.
+
+Researched-by: Alankrit Purohit <purohitak21@gmail.com>
+Reviewed-by: Lakshya Raj Malviya <177052558+Lakshya0903@users.noreply.github.com>
+Signed-off-by: Lakshya Raj Malviya <177052558+Lakshya0903@users.noreply.github.com>

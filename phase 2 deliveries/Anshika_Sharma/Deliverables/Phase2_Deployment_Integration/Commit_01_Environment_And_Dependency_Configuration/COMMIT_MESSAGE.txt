@@ -1,0 +1,12 @@
+chore(config): formalize Phase 2 settings, environment variables, and dependencies
+
+Define Phase 2 runtime settings using Pydantic Settings, document all variables in .env.example, configure requirements.txt, and update .gitignore.
+
+- Added Pydantic Settings for Razorpay keys, upload directory paths, and batch thresholds.
+- Added razorpay, alembic, and reportlab to requirements.txt.
+- Updated .env.example with secure placeholders and comprehensive variable descriptions.
+- Configured .gitignore to exclude SQLite databases, Python bytecode, and uploaded dispute photos.
+- Verified clean configuration loading with default development values.
+
+Reviewed-by: Swyam Shukla <swyamshukla0104@gmail.com>
+Signed-off-by: Lakshya Raj Malviya <177052558+Lakshya0903@users.noreply.github.com>

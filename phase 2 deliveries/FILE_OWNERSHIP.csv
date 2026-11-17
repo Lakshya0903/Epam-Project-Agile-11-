@@ -1,0 +1,73 @@
+File_Path,Primary_Owner,Owner_Role,Owner_Email,Commit_ID,Architectural_Layer,Coordination_Notes
+docs/phase-2-baseline-audit.md,Sneha Sanodia,Team Lead + QA Lead,snehasanodia1@gmail.com,Commit_01_Baseline_And_Gap_Analysis,QA_Coordination,Primary Implementation Owner
+docs/phase-2-architecture.md,Sneha Sanodia,Team Lead + QA Lead,snehasanodia1@gmail.com,Commit_01_Baseline_And_Gap_Analysis,QA_Coordination,Primary Implementation Owner
+docs/phase-2-security-review.md,Sneha Sanodia,Team Lead + QA Lead,snehasanodia1@gmail.com,Commit_01_Baseline_And_Gap_Analysis,QA_Coordination,Primary Implementation Owner
+README.md,Sneha Sanodia,Team Lead + QA Lead,snehasanodia1@gmail.com,Commit_02_Integration_Review_And_Release_Readiness,QA_Coordination,Primary Implementation Owner
+docs/phase-2-completion-report.md,Sneha Sanodia,Team Lead + QA Lead,snehasanodia1@gmail.com,Commit_02_Integration_Review_And_Release_Readiness,QA_Coordination,Primary Implementation Owner
+docs/phase-2-test-report.md,Sneha Sanodia,Team Lead + QA Lead,snehasanodia1@gmail.com,Commit_02_Integration_Review_And_Release_Readiness,QA_Coordination,Primary Implementation Owner
+backend/app/services/order_engine.py,Lakshya Raj Malviya,Backend Lead + AI/ML Engineer,177052558+Lakshya0903@users.noreply.github.com,Commit_01_Order_Engine_And_Lifecycle,Backend_Engineering,Primary Implementation Owner
+backend/app/services/batch_engine.py,Lakshya Raj Malviya,Backend Lead + AI/ML Engineer,177052558+Lakshya0903@users.noreply.github.com,Commit_02_Automatic_Batch_Engine,Backend_Engineering,Primary Implementation Owner
+backend/app/routers/orders.py,Lakshya Raj Malviya,Backend Lead + AI/ML Engineer,177052558+Lakshya0903@users.noreply.github.com,Commit_03_Order_Batch_Logistics_Integration,Backend_Engineering,Primary Implementation Owner
+backend/app/services/serviceability_engine.py,Yash Goyal,Backend Developer,yashgoyal09102005@gmail.com,Commit_01_Nationwide_Serviceability_Engine,Backend_Modules,Primary Implementation Owner
+backend/app/utils/geo.py,Yash Goyal,Backend Developer,yashgoyal09102005@gmail.com,Commit_01_Nationwide_Serviceability_Engine,Backend_Modules,Primary Implementation Owner
+backend/app/routers/produce.py,Yash Goyal,Backend Developer,yashgoyal09102005@gmail.com,Commit_02_Produce_Inventory_Compatibility,Backend_Modules,Primary Implementation Owner
+backend/app/services/produce_engine.py,Yash Goyal,Backend Developer,yashgoyal09102005@gmail.com,Commit_02_Produce_Inventory_Compatibility,Backend_Modules,Primary Implementation Owner
+backend/app/routers/logistics.py,Hemant Yadav,Backend Developer 3,hemantyadav6090@gmail.com,Commit_01_Logistics_API_And_Fleet_Management,Logistics_And_Payments,Primary Implementation Owner
+backend/app/services/logistics_engine.py,Hemant Yadav,Backend Developer 3,hemantyadav6090@gmail.com,Commit_01_Logistics_API_And_Fleet_Management,Logistics_And_Payments,Primary Implementation Owner
+backend/app/utils/otp.py,Hemant Yadav,Backend Developer 3,hemantyadav6090@gmail.com,Commit_02_Receiver_Confirmation_Without_OTP,Logistics_And_Payments,Primary Implementation Owner
+backend/app/routers/payments.py,Hemant Yadav,Backend Developer 3,hemantyadav6090@gmail.com,Commit_03_Payment_API_And_Gateway_Integration,Logistics_And_Payments,Primary Implementation Owner
+backend/app/services/payment_engine.py,Hemant Yadav,Backend Developer 3,hemantyadav6090@gmail.com,Commit_03_Payment_API_And_Gateway_Integration,Logistics_And_Payments,Primary Implementation Owner
+backend/app/services/payment_gateways/__init__.py,Hemant Yadav,Backend Developer 3,hemantyadav6090@gmail.com,Commit_03_Payment_API_And_Gateway_Integration,Logistics_And_Payments,Primary Implementation Owner
+backend/app/services/payment_gateways/base.py,Hemant Yadav,Backend Developer 3,hemantyadav6090@gmail.com,Commit_03_Payment_API_And_Gateway_Integration,Logistics_And_Payments,Primary Implementation Owner
+backend/app/services/payment_gateways/mock_provider.py,Hemant Yadav,Backend Developer 3,hemantyadav6090@gmail.com,Commit_03_Payment_API_And_Gateway_Integration,Logistics_And_Payments,Primary Implementation Owner
+backend/app/services/payment_gateways/razorpay_provider.py,Hemant Yadav,Backend Developer 3,hemantyadav6090@gmail.com,Commit_03_Payment_API_And_Gateway_Integration,Logistics_And_Payments,Primary Implementation Owner
+docs/phase-2-payment-gateway.md,Hemant Yadav,Backend Developer 3,hemantyadav6090@gmail.com,Commit_03_Payment_API_And_Gateway_Integration,Logistics_And_Payments,Primary Implementation Owner
+backend/app/models.py,Swyam Shukla,Database Lead + API Integration Engineer 1,swyamshukla0104@gmail.com,Commit_01_Database_Models_And_Relationships,Database_And_API_Schemas,Primary Implementation Owner
+backend/app/schemas.py,Swyam Shukla,Database Lead + API Integration Engineer 1,swyamshukla0104@gmail.com,Commit_02_Pydantic_Schemas_And_Data_Contracts,Database_And_API_Schemas,Primary Implementation Owner
+docs/phase-2-api-contracts.md,Swyam Shukla,Database Lead + API Integration Engineer 1,swyamshukla0104@gmail.com,Commit_02_Pydantic_Schemas_And_Data_Contracts,Database_And_API_Schemas,Primary Implementation Owner
+backend/alembic.ini,Swyam Shukla,Database Lead + API Integration Engineer 1,swyamshukla0104@gmail.com,Commit_03_Alembic_Migrations_And_Database_Seeding,Database_And_API_Schemas,Primary Implementation Owner
+backend/alembic/README,Swyam Shukla,Database Lead + API Integration Engineer 1,swyamshukla0104@gmail.com,Commit_03_Alembic_Migrations_And_Database_Seeding,Database_And_API_Schemas,Primary Implementation Owner
+backend/alembic/env.py,Swyam Shukla,Database Lead + API Integration Engineer 1,swyamshukla0104@gmail.com,Commit_03_Alembic_Migrations_And_Database_Seeding,Database_And_API_Schemas,Primary Implementation Owner
+backend/alembic/script.py.mako,Swyam Shukla,Database Lead + API Integration Engineer 1,swyamshukla0104@gmail.com,Commit_03_Alembic_Migrations_And_Database_Seeding,Database_And_API_Schemas,Primary Implementation Owner
+backend/alembic/versions/22f82a866cc9_phase_2_delivery_batches_disputes_.py,Swyam Shukla,Database Lead + API Integration Engineer 1,swyamshukla0104@gmail.com,Commit_03_Alembic_Migrations_And_Database_Seeding,Database_And_API_Schemas,Primary Implementation Owner
+backend/seed.py,Swyam Shukla,Database Lead + API Integration Engineer 1,swyamshukla0104@gmail.com,Commit_03_Alembic_Migrations_And_Database_Seeding,Database_And_API_Schemas,Primary Implementation Owner
+Documents/database-migrations.md,Swyam Shukla,Database Lead + API Integration Engineer 1,swyamshukla0104@gmail.com,Commit_03_Alembic_Migrations_And_Database_Seeding,Database_And_API_Schemas,Primary Implementation Owner
+docs/phase-2-database-changes.md,Swyam Shukla,Database Lead + API Integration Engineer 1,swyamshukla0104@gmail.com,Commit_03_Alembic_Migrations_And_Database_Seeding,Database_And_API_Schemas,Primary Implementation Owner
+frontend/js/api.js,Raksha Pandey,Frontend Lead + Database Developer 1,raksha.pandeyyy@gmail.com,Commit_01_Shared_API_Client_And_Auth,Shared_Frontend,Primary Implementation Owner
+frontend/js/auth.js,Raksha Pandey,Frontend Lead + Database Developer 1,raksha.pandeyyy@gmail.com,Commit_01_Shared_API_Client_And_Auth,Shared_Frontend,Primary Implementation Owner
+frontend/index.html,Raksha Pandey,Frontend Lead + Database Developer 1,raksha.pandeyyy@gmail.com,Commit_01_Shared_API_Client_And_Auth,Shared_Frontend,Primary Implementation Owner
+frontend/css/style.css,Raksha Pandey,Frontend Lead + Database Developer 1,raksha.pandeyyy@gmail.com,Commit_02_Shared_Design_System_And_Layout,Shared_Frontend,Primary Implementation Owner
+frontend/dashboard.html,Harshika Singh,Research Lead + Frontend Developer 2,harshikasingh212@gmail.com,Commit_01_Buyer_And_Farmer_Dashboards,Dashboard_Development,Primary Implementation Owner
+frontend/js/dashboard.js,Harshika Singh,Research Lead + Frontend Developer 2,harshikasingh212@gmail.com,Commit_01_Buyer_And_Farmer_Dashboards,Dashboard_Development,Primary Implementation Owner
+frontend/js/lang.js,Harshika Singh,Research Lead + Frontend Developer 2,harshikasingh212@gmail.com,Commit_03_Dispute_Payment_Interface_And_Localization,Dashboard_Development,Primary Implementation Owner
+frontend/analytics.html,Harshika Singh,Research Lead + Frontend Developer 2,harshikasingh212@gmail.com,Commit_03_Dispute_Payment_Interface_And_Localization,Dashboard_Development,Primary Implementation Owner
+frontend/js/analytics.js,Harshika Singh,Research Lead + Frontend Developer 2,harshikasingh212@gmail.com,Commit_03_Dispute_Payment_Interface_And_Localization,Dashboard_Development,Primary Implementation Owner
+backend/app/config.py,Anshika Sharma,Backend Developer 1 + Deployment Manager,anshika2907sharma@gmail.com,Commit_01_Environment_And_Dependency_Configuration,Deployment_Integration,Primary Implementation Owner
+backend/.env.example,Anshika Sharma,Backend Developer 1 + Deployment Manager,anshika2907sharma@gmail.com,Commit_01_Environment_And_Dependency_Configuration,Deployment_Integration,Primary Implementation Owner
+backend/requirements.txt,Anshika Sharma,Backend Developer 1 + Deployment Manager,anshika2907sharma@gmail.com,Commit_01_Environment_And_Dependency_Configuration,Deployment_Integration,Primary Implementation Owner
+backend/.gitignore,Anshika Sharma,Backend Developer 1 + Deployment Manager,anshika2907sharma@gmail.com,Commit_01_Environment_And_Dependency_Configuration,Deployment_Integration,Primary Implementation Owner
+backend/Dockerfile,Anshika Sharma,Backend Developer 1 + Deployment Manager,anshika2907sharma@gmail.com,Commit_02_Application_Startup_And_Docker_Integration,Deployment_Integration,Primary Implementation Owner
+backend/app/main.py,Anshika Sharma,Backend Developer 1 + Deployment Manager,anshika2907sharma@gmail.com,Commit_02_Application_Startup_And_Docker_Integration,Deployment_Integration,Primary Implementation Owner
+docs/phase-2-operations-runbook.md,Anshika Sharma,Backend Developer 1 + Deployment Manager,anshika2907sharma@gmail.com,Commit_02_Application_Startup_And_Docker_Integration,Deployment_Integration,Primary Implementation Owner
+tests/test_serviceability_phase2.py,Aparna Jha,Testing Engineer + Research Engineer,aparnajha2021@gmail.com,Commit_01_Serviceability_And_Batch_Testing,Test_Engineering,Primary Implementation Owner
+tests/test_batches_phase2.py,Aparna Jha,Testing Engineer + Research Engineer,aparnajha2021@gmail.com,Commit_01_Serviceability_And_Batch_Testing,Test_Engineering,Primary Implementation Owner
+tests/test_logistics.py,Aparna Jha,Testing Engineer + Research Engineer,aparnajha2021@gmail.com,Commit_01_Serviceability_And_Batch_Testing,Test_Engineering,Primary Implementation Owner
+tests/test_orders.py,Aparna Jha,Testing Engineer + Research Engineer,aparnajha2021@gmail.com,Commit_02_Order_Delivery_And_Dispute_Testing,Test_Engineering,Primary Implementation Owner
+tests/test_delivery_confirmation_phase2.py,Aparna Jha,Testing Engineer + Research Engineer,aparnajha2021@gmail.com,Commit_02_Order_Delivery_And_Dispute_Testing,Test_Engineering,Primary Implementation Owner
+tests/test_disputes_phase2.py,Aparna Jha,Testing Engineer + Research Engineer,aparnajha2021@gmail.com,Commit_02_Order_Delivery_And_Dispute_Testing,Test_Engineering,Primary Implementation Owner
+backend/app/routers/disputes.py,Aparna Jha,Testing Engineer + Research Engineer,aparnajha2021@gmail.com,Commit_02_Order_Delivery_And_Dispute_Testing,Test_Engineering,Primary Implementation Owner
+backend/app/services/dispute_engine.py,Aparna Jha,Testing Engineer + Research Engineer,aparnajha2021@gmail.com,Commit_02_Order_Delivery_And_Dispute_Testing,Test_Engineering,Primary Implementation Owner
+tests/test_payment_gateway_phase2.py,Aparna Jha,Testing Engineer + Research Engineer,aparnajha2021@gmail.com,Commit_03_Payment_Gateway_And_End_To_End_Testing,Test_Engineering,Primary Implementation Owner
+tests/test_payments.py,Aparna Jha,Testing Engineer + Research Engineer,aparnajha2021@gmail.com,Commit_03_Payment_Gateway_And_End_To_End_Testing,Test_Engineering,Primary Implementation Owner
+tests/test_phase2_workflows.py,Aparna Jha,Testing Engineer + Research Engineer,aparnajha2021@gmail.com,Commit_03_Payment_Gateway_And_End_To_End_Testing,Test_Engineering,Primary Implementation Owner
+tests/test_auth.py,Aparna Jha,Testing Engineer + Research Engineer,aparnajha2021@gmail.com,Commit_03_Payment_Gateway_And_End_To_End_Testing,Test_Engineering,Primary Implementation Owner
+tests/test_produce.py,Aparna Jha,Testing Engineer + Research Engineer,aparnajha2021@gmail.com,Commit_03_Payment_Gateway_And_End_To_End_Testing,Test_Engineering,Primary Implementation Owner
+docs/phase-2-operational-metrics-review.md,Mansi Jain,Data Analyst + Testing Engineer,mansijain1618@gmail.com,Commit_01_Phase2_Data_Quality_And_Metrics_Review,Data_Quality_Review,Primary Implementation Owner
+analytics/data_quality.py,Mansi Jain,Data Analyst + Testing Engineer,mansijain1618@gmail.com,Commit_01_Phase2_Data_Quality_And_Metrics_Review,Data_Quality_Review,Primary Implementation Owner
+analytics/mandi_analysis.py,Mansi Jain,Data Analyst + Testing Engineer,mansijain1618@gmail.com,Commit_01_Phase2_Data_Quality_And_Metrics_Review,Data_Quality_Review,Primary Implementation Owner
+docs/ml-feasibility-report.md,Alankrit Purohit,AI/ML Lead,purohitak21@gmail.com,Commit_01_AI_ML_Feasibility_And_Optimization_Assessment,ML_Feasibility,Primary Implementation Owner
+ml/README.md,Alankrit Purohit,AI/ML Lead,purohitak21@gmail.com,Commit_01_AI_ML_Feasibility_And_Optimization_Assessment,ML_Feasibility,Primary Implementation Owner
+ml/evaluation.py,Alankrit Purohit,AI/ML Lead,purohitak21@gmail.com,Commit_01_AI_ML_Feasibility_And_Optimization_Assessment,ML_Feasibility,Primary Implementation Owner
+ml/price_predictor.py,Alankrit Purohit,AI/ML Lead,purohitak21@gmail.com,Commit_01_AI_ML_Feasibility_And_Optimization_Assessment,ML_Feasibility,Primary Implementation Owner
+ml/experiments/baseline_experiment.py,Alankrit Purohit,AI/ML Lead,purohitak21@gmail.com,Commit_01_AI_ML_Feasibility_And_Optimization_Assessment,ML_Feasibility,Primary Implementation Owner
+ml/experiments/dataset_generator.py,Alankrit Purohit,AI/ML Lead,purohitak21@gmail.com,Commit_01_AI_ML_Feasibility_And_Optimization_Assessment,ML_Feasibility,Primary Implementation Owner

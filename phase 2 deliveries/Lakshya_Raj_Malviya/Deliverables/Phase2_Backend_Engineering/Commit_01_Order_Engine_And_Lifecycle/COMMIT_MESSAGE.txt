@@ -1,0 +1,12 @@
+feat(order): implement canonical 5-state lifecycle and inventory reservation
+
+Establish a deterministic state machine for order progression, preventing out-of-order mutations and ensuring atomic inventory reservation.
+
+- Enforced canonical state transitions: PLACED -> CONFIRMED -> PROCESSING -> SHIPPED -> DELIVERED.
+- Added strict transition_order_status() with state validation and immutable order_status_history audit logging.
+- Implemented inventory reservation checks and atomic quantity decrementing on checkout.
+- Added order cancellation handler with automatic inventory restocking and capacity release.
+- Validated state transition rules against unit test suite in tests/test_orders.py.
+
+Reviewed-by: Swyam Shukla <swyamshukla0104@gmail.com>
+Signed-off-by: Lakshya Raj Malviya <177052558+Lakshya0903@users.noreply.github.com>

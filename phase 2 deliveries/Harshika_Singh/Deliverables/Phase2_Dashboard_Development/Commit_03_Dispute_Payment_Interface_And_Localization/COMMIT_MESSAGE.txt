@@ -1,0 +1,13 @@
+feat(ui): add dispute photo upload modal, escrow UI, and Hindi localization
+
+Implement the buyer dispute filing modal with photo evidence upload, admin reviewer dispute adjudication screens, payment escrow status indicators, and Hindi/English localization.
+
+- Built dispute filing modal with multi-file photo evidence upload (drag and drop).
+- Added Admin reviewer dispute adjudication panel with refund/release decision buttons.
+- Displayed payment escrow status and 24-hour countdown timer on delivered orders.
+- Localized all Phase 2 UI strings into Hindi and English in lang.js.
+- Verified dispute submission and multi-lingual toggling end-to-end.
+
+Researched-by: Harshika Singh <harshikasingh212@gmail.com>
+Reviewed-by: Aparna Jha <aparnajha2021@gmail.com>
+Signed-off-by: Lakshya Raj Malviya <177052558+Lakshya0903@users.noreply.github.com>

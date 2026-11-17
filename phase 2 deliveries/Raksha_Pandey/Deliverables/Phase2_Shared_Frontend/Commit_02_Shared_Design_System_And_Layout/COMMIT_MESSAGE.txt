@@ -1,0 +1,13 @@
+style(ui): implement responsive CSS design system and Phase 2 status badges
+
+Build an accessible, responsive CSS3 design system using modern CSS variables, card layouts, modal dialogs, and color-coded status badges for all 5 canonical order states.
+
+- Defined CSS custom properties for brand theme palette, typography scale, and responsive spacing.
+- Styled canonical order status badges (PLACED, CONFIRMED, PROCESSING, SHIPPED, DELIVERED).
+- Added responsive grid utilities for Buyer, Farmer, Logistics, and Admin dashboard layouts.
+- Styled dispute review cards, file upload drop zones, and payment modal overlays.
+- Verified cross-browser responsiveness from 320px mobile viewports to desktop displays.
+
+Co-authored-by: Harshika Singh <harshikasingh212@gmail.com>
+Reviewed-by: Sneha Sanodiya <snehasanodia1@gmail.com>
+Signed-off-by: Lakshya Raj Malviya <177052558+Lakshya0903@users.noreply.github.com>

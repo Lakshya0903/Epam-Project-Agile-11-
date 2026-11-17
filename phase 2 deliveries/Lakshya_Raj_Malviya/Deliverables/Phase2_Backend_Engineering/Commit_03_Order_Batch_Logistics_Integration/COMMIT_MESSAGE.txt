@@ -1,0 +1,13 @@
+feat(orders): integrate order checkout with batch allocation and serviceability
+
+Wire the order checkout API router with the dual-capacity batch engine and PIN serviceability validator within an atomic database transaction.
+
+- Connected POST /orders endpoint to evaluate_serviceability() for PIN code serviceability check.
+- Integrated assign_order_to_batch() to automatically allocate orders to eligible batches during checkout.
+- Handled capacity overflow and fallback batch generation during peak ordering periods.
+- Enriched order response schemas with assigned batch details, slot times, and canonical tracking status.
+- Verified checkout atomicity and inventory rollback across tests/test_orders.py.
+
+Co-authored-by: Hemant Yadav <hemantyadav6090@gmail.com>
+Reviewed-by: Sneha Sanodiya <snehasanodia1@gmail.com>
+Signed-off-by: Lakshya Raj Malviya <177052558+Lakshya0903@users.noreply.github.com>
