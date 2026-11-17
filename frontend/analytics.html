@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Market Price Analytics — FarmCart</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<div class="topbar">
+  <div class="brand">
+    <span class="mark">📊</span>
+    <span>FarmCart Intelligence</span>
+  </div>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="dashboard.html">Dashboard</a>
+    <span class="role-badge">Market Intelligence</span>
+  </nav>
+</div>
+
+<div class="shell" style="margin-top:24px;">
+
+  <!-- HERO -->
+  <section class="hero" style="padding-top:20px; padding-bottom:20px;">
+    <span class="eyebrow">AGRICULTURAL MARKET INTELLIGENCE</span>
+    <h1>Wholesale Mandi Price Benchmarks</h1>
+    <p>
+      Real-time price trend analytics across primary regulated APMC mandis in India. 
+      Compare prevailing modal prices with FarmCart direct realization rates.
+    </p>
+  </section>
+
+  <!-- DATA QUALITY & VERIFICATION BANNER -->
+  <div class="card" style="background:var(--soft-2); border-color:var(--line); margin-bottom:24px; padding:16px 20px;">
+    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+      <div>
+        <strong>✓ Official Data Standards (Agmarknet & OGD India)</strong>
+        <div class="small-note">Benchmark dataset audited via <code>analytics/data_quality.py</code> (Hygiene Score: 91.3%)</div>
+      </div>
+      <span class="badge success">Verified Benchmark Data</span>
+    </div>
+  </div>
+
+  <!-- COMMODITY SELECTOR -->
+  <div class="card" style="margin-bottom:24px;">
+    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+      <div>
+        <label style="margin:0 0 6px 0;">Select Commodity</label>
+        <div class="tabs" style="margin-bottom:0;" id="commodity-tabs">
+          <div class="tab active" data-comm="Tomato">Tomato (Azadpur)</div>
+          <div class="tab" data-comm="Onion">Onion (Lasalgaon)</div>
+          <div class="tab" data-comm="Potato">Potato (Agra)</div>
+        </div>
+      </div>
+      <div>
+        <span class="small-note">Reporting Unit: <strong>INR / Quintal (100 kg)</strong></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- STAT METRICS GRID -->
+  <div class="grid grid-4" style="margin-bottom:24px;">
+    <div class="card">
+      <span class="eyebrow">Latest Modal Price</span>
+      <div class="metric-stat">
+        <span class="num" id="stat-modal-price">₹28.50/kg</span>
+        <span class="trend" id="stat-modal-quintal">₹2,850 / quintal</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <span class="eyebrow">7-Day Moving Avg</span>
+      <div class="metric-stat">
+        <span class="num" id="stat-ma7-price">₹25.21/kg</span>
+        <span class="trend up" id="stat-ma7-trend">Trending Upward</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <span class="eyebrow">Weekly Price Spread</span>
+      <div class="metric-stat">
+        <span class="num" id="stat-spread">₹15.00/kg</span>
+        <span class="trend" id="stat-spread-pct">59.5% Spread Ratio</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <span class="eyebrow">Farmer Net Gain</span>
+      <div class="metric-stat">
+        <span class="num" id="stat-farmer-gain" style="color:var(--wheat);">+₹1.14/kg</span>
+        <span class="trend" style="color:var(--wheat); font-weight:700;">+4.55% vs Mandi Net</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRICE TREND CHART -->
+  <div class="card" style="margin-bottom:28px;">
+    <h3>Price Trajectory (Recent Arrivals)</h3>
+    <p class="small-note">Daily modal prices plotted over the last recorded trading cycle.</p>
+    
+    <div style="width:100%; height:260px; margin-top:20px; position:relative;" id="chart-container">
+      <!-- SVG Chart dynamically injected by analytics.js -->
+    </div>
+  </div>
+
+  <!-- COMPARATIVE REALIZATION TABLE -->
+  <div class="card">
+    <h3>Economics: Traditional Mandi vs. FarmCart</h3>
+    <p class="small-note">
+      Detailed fee structure showing why direct farm-to-buyer transactions yield higher farmer realization while reducing retail price inflation.
+    </p>
+
+    <div class="table-responsive">
+      <table>
+        <thead>
+          <tr>
+            <th>Fee / Cost Component</th>
+            <th>Traditional Mandi Channel</th>
+            <th>FarmCart Direct Platform</th>
+            <th>Farmer Advantage</th>
+          </tr>
+        </thead>
+        <tbody id="comparison-table-body">
+          <tr>
+            <td>Commission Agent (Arhtiya) Fee</td>
+            <td>5.0% – 6.0% (Mandatory)</td>
+            <td>0.0% (No middleman)</td>
+            <td><strong>+6.0% Saved</strong></td>
+          </tr>
+          <tr>
+            <td>APMC Cess & Loading Charges</td>
+            <td>4.0% – 6.0% (Deducted at yard)</td>
+            <td>0.0% (Direct farm gate pickup)</td>
+            <td><strong>+5.0% Saved</strong></td>
+          </tr>
+          <tr>
+            <td>Platform Technology Fee</td>
+            <td>0.0%</td>
+            <td>8.0% (Transparent flat fee)</td>
+            <td>Standardized</td>
+          </tr>
+          <tr>
+            <td><strong>Total Farmer Deductions</strong></td>
+            <td style="color:var(--danger); font-weight:700;">~12.0% of Gross Value</td>
+            <td style="color:var(--wheat); font-weight:700;">8.0% Flat</td>
+            <td style="color:var(--wheat); font-weight:800;">+4.0% More Take-Home Cash</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  FarmCart Market Intelligence — Analytical module powered by official data standards.
+</footer>
+
+<script src="js/api.js"></script>
+<script src="js/analytics.js"></script>
+</body>
+</html>
