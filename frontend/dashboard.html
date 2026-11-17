@@ -231,13 +231,12 @@
     </h2>
 
     <p class="small-note">
-
-      Orders update automatically as buyers purchase your
-      listed products — check the Orders tab from any buyer
-      view, or ask your team to check platform admin for
-      full visibility.
-
+      Orders update automatically as buyers purchase your listed products. Confirm orders and mark them as processing to advance through the canonical 5-stage lifecycle.
     </p>
+
+    <div id="farmer-orders-list" class="grid" style="gap:16px; margin-top:16px;">
+      <p class="small-note">Loading incoming orders...</p>
+    </div>
 
   </section>
 
@@ -378,23 +377,46 @@
 
 
 
-        <!-- DELIVERY DETAILS -->
+        <!-- DELIVERY DETAILS & NATIONWIDE SERVICEABILITY -->
 
         <h3 style="margin-top:28px;">
-          Delivery details
+          Delivery details & Serviceability
         </h3>
 
+        <div class="field-row">
+          <div>
+            <label>PIN code (6-digit Indian PIN)</label>
+            <div style="display:flex; gap:8px;">
+              <input type="text" id="delivery-pincode" maxlength="6" placeholder="e.g. 560001" style="flex:1;">
+              <button type="button" class="btn secondary small" id="check-pin-btn" onclick="checkServiceability()">Check</button>
+            </div>
+          </div>
 
-        <label>
-          Delivery location
+          <div>
+            <label>Delivery mode</label>
+            <select id="delivery-mode" onchange="onDeliveryModeChange()">
+              <option value="home_delivery">Home delivery</option>
+              <option value="shared_drop_point">Shared drop point</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="pin-serviceability-status" style="margin-top:8px;"></div>
+
+        <div id="drop-point-selection-row" style="display:none; margin-top:12px;">
+          <label>Select shared drop point</label>
+          <select id="delivery-drop-point"></select>
+        </div>
+
+        <label style="margin-top:12px;">
+          Delivery location / Street address
         </label>
 
         <input
           type="text"
           id="delivery-location"
-          placeholder="Area, City"
+          placeholder="House/Flat number, Street name, Area"
         >
-
 
         <div class="field-row">
 
@@ -704,6 +726,23 @@
 
 
     <!-- ================================================= -->
+    <!--              ACTIVE DELIVERY BATCHES              -->
+    <!-- ================================================= -->
+
+    <div class="card" style="margin-top:32px;">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <h3>Active Delivery Batches</h3>
+        <button class="btn secondary small" onclick="loadLogisticsBatches()">Refresh Batches</button>
+      </div>
+      <p class="small-note">
+        Dual capacity monitoring (weight & order count), zone grouping, and schedule cutoff dispatch.
+      </p>
+      <div id="logistics-batches-list" style="margin-top:16px;">
+        <p class="small-note">Loading batches...</p>
+      </div>
+    </div>
+
+    <!-- ================================================= -->
     <!--              ASSIGNED DELIVERIES                 -->
     <!-- ================================================= -->
 
@@ -732,6 +771,161 @@
 
     </div>
 
+
+  </section>
+
+
+  <!-- ================================================= -->
+  <!--                     ADMIN VIEW                    -->
+  <!-- ================================================= -->
+
+  <section id="admin-view" style="display:none;">
+
+    <span class="eyebrow">Platform Admin & Operations</span>
+    <h1>Admin & Reviewer Control Center</h1>
+
+    <!-- ADMIN TABS -->
+    <div class="tabs">
+      <div class="tab active" data-atab="disputes">Disputes Review</div>
+      <div class="tab" data-atab="zones">Delivery Zones</div>
+      <div class="tab" data-atab="droppoints">Shared Drop Points</div>
+      <div class="tab" data-atab="batches">Batches Monitor</div>
+      <div class="tab" data-atab="ledger">Payment Ledger</div>
+    </div>
+
+    <!-- TAB 1: DISPUTES -->
+    <div id="atab-disputes">
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <h3>Customer Disputes Review</h3>
+          <button class="btn secondary small" onclick="loadAdminDisputes()">Refresh</button>
+        </div>
+        <p class="small-note">Review evidence within the 24-hour delivery window. Escrowed payment is held until dispute resolution.</p>
+        <div id="admin-disputes-list" style="margin-top:16px;"></div>
+      </div>
+    </div>
+
+    <!-- TAB 2: DELIVERY ZONES -->
+    <div id="atab-zones" style="display:none;">
+      <div class="grid grid-2" style="align-items:flex-start;">
+        <div class="card">
+          <h3>Create Delivery Zone</h3>
+          <form id="admin-zone-form">
+            <label>Zone Code</label>
+            <input type="text" id="az-code" required placeholder="e.g. BLR-NORTH">
+            <label>Zone Name</label>
+            <input type="text" id="az-name" required placeholder="e.g. Bangalore North Urban">
+            <div class="field-row">
+              <div>
+                <label>State</label>
+                <input type="text" id="az-state" required placeholder="Karnataka">
+              </div>
+              <div>
+                <label>Dispatch Buffer (min)</label>
+                <input type="number" id="az-dispatch-buffer" value="60" min="0">
+              </div>
+            </div>
+            <label>Covered PIN Codes (comma separated)</label>
+            <input type="text" id="az-pincodes" required placeholder="560001, 560002, 560003">
+            <div class="field-row">
+              <div>
+                <label>Min Weight Threshold (kg)</label>
+                <input type="number" id="az-min-weight" value="25" min="1" step="0.5">
+              </div>
+              <div>
+                <label>Max Weight Capacity (kg)</label>
+                <input type="number" id="az-max-weight" value="500" min="1">
+              </div>
+            </div>
+            <div class="field-row">
+              <div>
+                <label>Max Orders / Batch</label>
+                <input type="number" id="az-max-orders" value="50" min="1">
+              </div>
+              <div style="display:flex; flex-direction:column; justify-content:center; gap:6px;">
+                <label><input type="checkbox" id="az-home-del" checked style="width:auto; display:inline-block; margin-right:6px;"> Home Delivery</label>
+                <label><input type="checkbox" id="az-drop-point" checked style="width:auto; display:inline-block; margin-right:6px;"> Drop Points</label>
+              </div>
+            </div>
+            <button class="btn full" style="margin-top:16px;" type="submit">Create Zone</button>
+            <div id="admin-zone-msg"></div>
+          </form>
+        </div>
+        <div class="card">
+          <h3>Active Delivery Zones</h3>
+          <div id="admin-zones-table" style="overflow-x:auto;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 3: DROP POINTS -->
+    <div id="atab-droppoints" style="display:none;">
+      <div class="grid grid-2" style="align-items:flex-start;">
+        <div class="card">
+          <h3>Add Shared Drop Point</h3>
+          <form id="admin-droppoint-form">
+            <label>Drop Point Name</label>
+            <input type="text" id="adp-name" required placeholder="e.g. Indiranagar Community Hub">
+            <label>Point Code</label>
+            <input type="text" id="adp-code" required placeholder="e.g. HUB-BLR-01">
+            <label>PIN Code (6 digits)</label>
+            <input type="text" id="adp-pincode" maxlength="6" required placeholder="560038">
+            <label>Physical Address</label>
+            <input type="text" id="adp-address" required placeholder="12, 100ft Road, Indiranagar">
+            <div class="field-row">
+              <div>
+                <label>Operating Hours</label>
+                <input type="text" id="adp-hours" value="08:00 - 20:00">
+              </div>
+              <div>
+                <label>Capacity (Orders)</label>
+                <input type="number" id="adp-capacity" value="30" min="1">
+              </div>
+            </div>
+            <div class="field-row">
+              <div>
+                <label>Contact Person</label>
+                <input type="text" id="adp-contact" placeholder="Hub Manager">
+              </div>
+              <div>
+                <label>Contact Phone</label>
+                <input type="text" id="adp-phone" placeholder="9876543210">
+              </div>
+            </div>
+            <button class="btn full" style="margin-top:16px;" type="submit">Add Drop Point</button>
+            <div id="admin-droppoint-msg"></div>
+          </form>
+        </div>
+        <div class="card">
+          <h3>Configured Drop Points</h3>
+          <div id="admin-droppoints-table" style="overflow-x:auto;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 4: BATCHES -->
+    <div id="atab-batches" style="display:none;">
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <h3>Nationwide Delivery Batches</h3>
+          <button class="btn secondary small" onclick="triggerEvaluateCutoffs()">Evaluate Schedule Cutoffs</button>
+        </div>
+        <p class="small-note">Batches automatically group orders by zone, slot, and delivery mode. Batches past cutoff are dispatched or flagged for review.</p>
+        <div id="admin-batches-list" style="margin-top:16px;"></div>
+      </div>
+    </div>
+
+    <!-- TAB 5: LEDGER -->
+    <div id="atab-ledger" style="display:none;">
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <h3>Payment Ledger (Audit Log)</h3>
+          <button class="btn secondary small" onclick="loadAdminLedger()">Refresh</button>
+        </div>
+        <p class="small-note">Double-entry immutable ledger entries: hold in escrow, payout release to farmer & logistics, and buyer refunds.</p>
+        <div id="admin-ledger-table" style="margin-top:16px; overflow-x:auto;"></div>
+      </div>
+    </div>
 
   </section>
 
