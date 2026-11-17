@@ -1,0 +1,13 @@
+feat(disputes): implement dispute engine, router, and comprehensive test suite
+
+Build automated test suites for canonical order state transitions, receiver confirmation without OTP, 24-hour dispute window enforcement, evidence photo upload, and reviewer resolution.
+
+- Implemented dispute_engine.py with 24-hour post-delivery window validation.
+- Added dispute photo evidence upload with UUID-based secure storage in uploads/disputes/.
+- Built reviewer resolution workflow (RELEASE_TO_FARMER, FULL_REFUND, PARTIAL_REFUND).
+- Created test_disputes_phase2.py and test_delivery_confirmation_phase2.py.
+- Verified dispute rejection for expired windows and unauthorized claims.
+
+Co-authored-by: Hemant Yadav <hemantyadav6090@gmail.com>
+Reviewed-by: Sneha Sanodiya <snehasanodia1@gmail.com>
+Signed-off-by: Lakshya Raj Malviya <177052558+Lakshya0903@users.noreply.github.com>

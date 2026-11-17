@@ -1,0 +1,14 @@
+feat(payments): implement pluggable payment gateways and integer paise ledger
+
+Integrate pluggable payment gateways with integer paise accounting, HMAC-SHA256 signature verification, and automated escrow hold until delivery.
+
+- Built BasePaymentGateway abstract interface and provider registry.
+- Implemented MockPaymentGateway for deterministic local testing and development.
+- Implemented RazorpayGateway with order creation and HMAC-SHA256 signature verification.
+- Added POST /payments/initiate, /payments/verify, and /payments/webhook endpoints.
+- Maintained financial integrity using integer paise calculations and immutable LedgerEntry audit records.
+- Validated payment flows in tests/test_payments.py and tests/test_payment_gateway_phase2.py.
+
+Co-authored-by: Swyam Shukla <swyamshukla0104@gmail.com>
+Reviewed-by: Lakshya Raj Malviya <177052558+Lakshya0903@users.noreply.github.com>
+Signed-off-by: Lakshya Raj Malviya <177052558+Lakshya0903@users.noreply.github.com>

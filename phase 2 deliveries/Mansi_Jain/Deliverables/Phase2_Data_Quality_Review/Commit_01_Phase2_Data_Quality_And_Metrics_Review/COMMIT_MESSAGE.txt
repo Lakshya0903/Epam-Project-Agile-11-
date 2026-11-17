@@ -1,0 +1,12 @@
+docs(analytics): establish Phase 2 operational metrics and data quality framework
+
+Analyze Phase 2 operational data models, formulate Key Performance Indicators, and document data quality checks to monitor platform health and delivery SLAs.
+
+- Formulated 10 core operational KPIs (batch fill rates, DCR, dispute frequency, hold times).
+- Mapped database entities and join paths across batches, orders, and ledger.
+- Defined data quality invariants (strict PIN regex, canonical lifecycle, paise integrity).
+- Distinguished synthetic seed test fixtures from live telemetry recommendations in docs/phase-2-operational-metrics-review.md.
+
+Researched-by: Mansi Jain <mansijain1618@gmail.com>
+Reviewed-by: Sneha Sanodiya <snehasanodia1@gmail.com>
+Signed-off-by: Lakshya Raj Malviya <177052558+Lakshya0903@users.noreply.github.com>

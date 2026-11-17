@@ -1,0 +1,12 @@
+feat(logistics): add delivery zones, drop points, and batch dispatch APIs
+
+Implement REST controllers and domain logic for delivery zones, shared drop points, vehicle fleet allocation, and delivery batch dispatch.
+
+- Added GET /logistics/zones and GET /logistics/zones/{id}/drop-points endpoints for zone inspection.
+- Implemented batch dispatch and transit status updating for logistics partner fleet operations.
+- Added vehicle capacity validation and cold chain compatibility checks for temperature-sensitive produce.
+- Implemented nearest-neighbor route distance optimization helpers in logistics_engine.py.
+- Tested fleet assignment and vehicle constraints in tests/test_logistics.py.
+
+Reviewed-by: Lakshya Raj Malviya <177052558+Lakshya0903@users.noreply.github.com>
+Signed-off-by: Lakshya Raj Malviya <177052558+Lakshya0903@users.noreply.github.com>

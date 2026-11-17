@@ -1,0 +1,13 @@
+feat(batch): implement dual-capacity delivery batch engine and cutoff scheduling
+
+Implement the dynamic delivery batching engine to group orders by area, delivery date, and time slot while enforcing dual weight and order-count capacity limits.
+
+- Built find_or_create_batch() enforcing both max_weight_kg and max_orders thresholds.
+- Implemented dynamic cutoff time calculation (4h before morning slot, 3h before afternoon slot).
+- Enforced shared drop point isolation to prevent mixing home delivery and drop point routes.
+- Added automatic batch locking upon cutoff expiration and capacity overflow handling.
+- Validated dual-capacity boundaries and cutoff freezing in tests/test_batches_phase2.py.
+
+Co-authored-by: Yash Goyal <yashgoyal09102005@gmail.com>
+Reviewed-by: Swyam Shukla <swyamshukla0104@gmail.com>
+Signed-off-by: Lakshya Raj Malviya <177052558+Lakshya0903@users.noreply.github.com>

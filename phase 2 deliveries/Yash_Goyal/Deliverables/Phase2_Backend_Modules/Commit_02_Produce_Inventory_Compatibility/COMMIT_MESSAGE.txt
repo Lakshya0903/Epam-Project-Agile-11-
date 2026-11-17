@@ -1,0 +1,12 @@
+feat(produce): enhance produce inventory validation and batch weight compatibility
+
+Refactor produce endpoints and domain services to ensure inventory reservation compatibility, accurate unit weights for batch allocation, and preserved Phase 1 mandi comparisons.
+
+- Enforced non-negative inventory thresholds and sold-out status flags on produce listings.
+- Added produce weight formatting and validation for dual-capacity batch load calculations.
+- Enhanced search and category filters across vegetable, fruit, and grain listings.
+- Preserved Phase 1 mandi price benchmark comparisons without disrupting active orders.
+- Validated produce operations in tests/test_produce.py.
+
+Reviewed-by: Swyam Shukla <swyamshukla0104@gmail.com>
+Signed-off-by: Lakshya Raj Malviya <177052558+Lakshya0903@users.noreply.github.com>

@@ -1,0 +1,12 @@
+feat(serviceability): implement Indian PIN validator and zone serviceability engine
+
+Implement nationwide geographic address validation and active delivery zone mapping across all Indian states and postal circles.
+
+- Added strict 6-digit regex validation for Indian PIN codes: ^[1-9][0-9]{5}$.
+- Built clean_pincode() to sanitize embedded whitespace, leading/trailing spaces, and non-numeric inputs.
+- Implemented evaluate_serviceability() verifying active zone coverage, delivery modes, and drop point availability.
+- Added Haversine distance calculations and nearest drop point proximity filtering in utils/geo.py.
+- Validated boundary test cases in tests/test_serviceability_phase2.py.
+
+Reviewed-by: Lakshya Raj Malviya <177052558+Lakshya0903@users.noreply.github.com>
+Signed-off-by: Lakshya Raj Malviya <177052558+Lakshya0903@users.noreply.github.com>

@@ -1,0 +1,12 @@
+feat(frontend): build shared API client wrapper and JWT session manager
+
+Implement the core client-side HTTP communication layer, JWT token persistence, multipart/form-data upload support, and centralized error notifications in vanilla JavaScript.
+
+- Created apiFetch() wrapper with automatic Authorization Bearer header injection.
+- Added multipart/form-data support for dispute photo evidence uploads without manual headers.
+- Built auth.js with login, register, token persistence, and role-based redirect routing.
+- Added centralized error toast notifications and HTTP 401 token expiry handling.
+- Verified API client against FastAPI backend authentication endpoints.
+
+Reviewed-by: Harshika Singh <harshikasingh212@gmail.com>
+Signed-off-by: Lakshya Raj Malviya <177052558+Lakshya0903@users.noreply.github.com>

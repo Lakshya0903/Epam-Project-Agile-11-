@@ -1,0 +1,13 @@
+test(e2e): add payment gateway tests and complete end-to-end workflow validation
+
+Implement automated test suites for Mock and Razorpay payment gateways, webhook signature verification, integer paise accounting, and complete buyer-to-delivery workflows.
+
+- Validated MockGateway and RazorpayGateway initiation and signature checks.
+- Verified HMAC-SHA256 webhook authenticity and duplicate payment prevention.
+- Built test_phase2_workflows.py testing end-to-end checkout through delivery.
+- Achieved 50/50 automated tests passing across the entire test suite in ~14s.
+- Confirmed zero regressions across Phase 1 authentication, produce, and order features.
+
+Researched-by: Aparna Jha <aparnajha2021@gmail.com>
+Reviewed-by: Sneha Sanodiya <snehasanodia1@gmail.com>
+Signed-off-by: Lakshya Raj Malviya <177052558+Lakshya0903@users.noreply.github.com>
