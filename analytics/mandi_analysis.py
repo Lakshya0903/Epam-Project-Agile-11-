@@ -42,6 +42,8 @@ SAMPLE_MANDI_DATA: List[Dict[str, Any]] = [
 ]
 
 
+
+
 def calculate_mandi_metrics(records: List[Dict[str, Any]], commodity: str) -> Dict[str, Any]:
     """Calculate price spread, moving averages, and volatility for a commodity."""
     filtered = [r for r in records if r["commodity"].lower() == commodity.lower()]
