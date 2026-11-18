@@ -10,7 +10,11 @@ from fastapi.staticfiles import StaticFiles
 
 from . import models
 from .database import engine
+<<<<<<< HEAD
 from .routers import auth, produce, orders, logistics, payments, analytics, disputes
+=======
+from .routers import auth, produce, orders, logistics, payments, analytics
+>>>>>>> 995d29bffc6fc6bc27cdbec8ca4f9b492042b07a
 
 # Ensure all database tables exist upon server startup
 models.Base.metadata.create_all(bind=engine)
@@ -37,7 +41,10 @@ app.include_router(orders.router)
 app.include_router(logistics.router)
 app.include_router(payments.router)
 app.include_router(analytics.router)
+<<<<<<< HEAD
 app.include_router(disputes.router)
+=======
+>>>>>>> 995d29bffc6fc6bc27cdbec8ca4f9b492042b07a
 
 # Serve static frontend assets if directory exists
 frontend_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "frontend"))
