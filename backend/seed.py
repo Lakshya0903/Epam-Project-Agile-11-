@@ -68,6 +68,12 @@ test_users = [
         "password": "Test123!",
         "role": models.UserRole.admin,
     },
+    {
+        "name": "Dispute Reviewer",
+        "email": "reviewer@test.com",
+        "password": "Test123!",
+        "role": models.UserRole.reviewer,
+    },
 ]
 
 for data in test_users:
@@ -232,6 +238,132 @@ for rec in mandi_records:
         print(f"Created mandi benchmark: {rec['commodity']} @ {rec['market']}")
 
 
+
+# ---------- 5. PHASE 2: NATIONWIDE DELIVERY ZONES & DROP POINTS ----------
+
+import json
+
+zones_data = [
+    dict(
+        name="Delhi NCR Central Zone",
+        state="Delhi",
+        district="Central",
+        city="New Delhi",
+        serviceable_pincodes=json.dumps(["110001", "110002", "110003", "110004", "110005", "110006", "110049", "110052"]),
+        is_active=True,
+        min_batch_threshold_kg=25.0,
+        max_batch_weight_kg=1000.0,
+        max_batch_orders=50,
+        preparation_buffer_hours=4.0,
+        dispatch_buffer_hours=2.0,
+        allows_home_delivery=True,
+        allows_drop_point=True,
+    ),
+    dict(
+        name="Mumbai Suburban Zone",
+        state="Maharashtra",
+        district="Mumbai Suburban",
+        city="Mumbai",
+        serviceable_pincodes=json.dumps(["400053", "400058", "400069", "400050", "400051"]),
+        is_active=True,
+        min_batch_threshold_kg=20.0,
+        max_batch_weight_kg=800.0,
+        max_batch_orders=40,
+        preparation_buffer_hours=4.0,
+        dispatch_buffer_hours=2.0,
+        allows_home_delivery=True,
+        allows_drop_point=True,
+    ),
+    dict(
+        name="Nashik Agri Cluster Zone",
+        state="Maharashtra",
+        district="Nashik",
+        city="Nashik",
+        serviceable_pincodes=json.dumps(["422001", "422002", "422003", "422301"]),
+        is_active=True,
+        min_batch_threshold_kg=30.0,
+        max_batch_weight_kg=1500.0,
+        max_batch_orders=60,
+        preparation_buffer_hours=3.0,
+        dispatch_buffer_hours=2.0,
+        allows_home_delivery=True,
+        allows_drop_point=True,
+    ),
+]
+
+created_zones = {}
+for zd in zones_data:
+    z = db.query(models.DeliveryZone).filter(models.DeliveryZone.name == zd["name"]).first()
+    if not z:
+        z = models.DeliveryZone(**zd)
+        db.add(z)
+        db.flush()
+        print(f"Created delivery zone: {z.name}")
+    created_zones[z.name] = z
+
+delhi_zone = created_zones.get("Delhi NCR Central Zone")
+mumbai_zone = created_zones.get("Mumbai Suburban Zone")
+
+drop_points_data = [
+    dict(
+        zone_id=delhi_zone.id if delhi_zone else None,
+        name="Connaught Place Community Hub",
+        address_line="Block B, Inner Circle, Connaught Place",
+        locality="Connaught Place",
+        city="New Delhi",
+        district="Central",
+        state="Delhi",
+        pincode="110001",
+        operating_hours="08:00 - 20:00",
+        contact_phone="9811000001",
+        capacity_orders=100,
+        is_active=True,
+        latitude=28.63,
+        longitude=77.21,
+    ),
+    dict(
+        zone_id=delhi_zone.id if delhi_zone else None,
+        name="South Extension Market Cooperative Hub",
+        address_line="Main Market, Part II, South Extension",
+        locality="South Extension",
+        city="New Delhi",
+        district="South",
+        state="Delhi",
+        pincode="110049",
+        operating_hours="09:00 - 21:00",
+        contact_phone="9811000049",
+        capacity_orders=80,
+        is_active=True,
+        latitude=28.57,
+        longitude=77.22,
+    ),
+    dict(
+        zone_id=mumbai_zone.id if mumbai_zone else None,
+        name="Andheri West Station Drop Point",
+        address_line="Near Platform 1, Station Road, Andheri West",
+        locality="Andheri West",
+        city="Mumbai",
+        district="Mumbai Suburban",
+        state="Maharashtra",
+        pincode="400058",
+        operating_hours="08:00 - 20:00",
+        contact_phone="9820000058",
+        capacity_orders=120,
+        is_active=True,
+        latitude=19.12,
+        longitude=72.84,
+    ),
+]
+
+for dpd in drop_points_data:
+    if dpd["zone_id"]:
+        dp = db.query(models.SharedDropPoint).filter(models.SharedDropPoint.name == dpd["name"]).first()
+        if not dp:
+            dp = models.SharedDropPoint(**dpd)
+            db.add(dp)
+            print(f"Created shared drop point: {dp.name}")
+
+
 db.commit()
 db.close()
 
@@ -244,4 +376,5 @@ print("  Buyer (Ind) : buyer@test.com / Test123!")
 print("  Buyer (Bulk): bulkbuyer@test.com / Test123!")
 print("  Logistics   : logistics@test.com / Test123!")
 print("  Admin       : admin@test.com / Test123!")
+print("  Reviewer    : reviewer@test.com / Test123!")
 print("=" * 50)

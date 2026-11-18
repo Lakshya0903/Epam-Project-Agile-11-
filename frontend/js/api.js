@@ -113,20 +113,18 @@ async function apiRequest(
   let payload = undefined;
 
   if (body !== null) {
-
-    if (form) {
-
+    if (typeof FormData !== "undefined" && body instanceof FormData) {
+      // Used for file uploads (e.g., dispute evidence)
+      payload = body;
+      // Note: do not set Content-Type header so browser sets multipart/form-data boundary
+    } else if (form) {
       // Used by /auth/login
       payload = new URLSearchParams(body);
-
       headers["Content-Type"] =
         "application/x-www-form-urlencoded";
-
     } else {
-
       // Used by JSON API endpoints
       payload = JSON.stringify(body);
-
       headers["Content-Type"] =
         "application/json";
     }
