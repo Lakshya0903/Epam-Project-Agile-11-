@@ -25,6 +25,186 @@ def upgrade() -> None:
     inspector = Inspector.from_engine(conn)
     existing_tables = inspector.get_table_names()
 
+    # Baseline Phase 1 Tables (created if running on a fresh database)
+    if "users" not in existing_tables:
+        op.create_table(
+            "users",
+            sa.Column("id", sa.String(), primary_key=True),
+            sa.Column("name", sa.String(), nullable=False),
+            sa.Column("email", sa.String(), unique=True, index=True, nullable=False),
+            sa.Column("hashed_password", sa.String(), nullable=False),
+            sa.Column("role", sa.String(), nullable=False),
+            sa.Column("buyer_type", sa.String(), nullable=True),
+            sa.Column("phone", sa.String(), nullable=True),
+            sa.Column("business_name", sa.String(), nullable=True),
+            sa.Column("default_location", sa.String(), nullable=True),
+            sa.Column("address_line", sa.String(), nullable=True),
+            sa.Column("pincode", sa.String(), nullable=True),
+            sa.Column("city", sa.String(), nullable=True),
+            sa.Column("district", sa.String(), nullable=True),
+            sa.Column("state", sa.String(), nullable=True),
+            sa.Column("created_at", sa.DateTime(timezone=True), nullable=True),
+        )
+    if "farmer_profiles" not in existing_tables:
+        op.create_table(
+            "farmer_profiles",
+            sa.Column("id", sa.String(), primary_key=True),
+            sa.Column("user_id", sa.String(), sa.ForeignKey("users.id", ondelete="CASCADE"), nullable=False),
+            sa.Column("farm_or_fpo_name", sa.String(), nullable=True),
+            sa.Column("pickup_location", sa.String(), nullable=True),
+            sa.Column("latitude", sa.Float(), nullable=True),
+            sa.Column("longitude", sa.Float(), nullable=True),
+            sa.Column("created_at", sa.DateTime(timezone=True), nullable=True),
+        )
+    if "buyer_profiles" not in existing_tables:
+        op.create_table(
+            "buyer_profiles",
+            sa.Column("id", sa.String(), primary_key=True),
+            sa.Column("user_id", sa.String(), sa.ForeignKey("users.id", ondelete="CASCADE"), nullable=False),
+            sa.Column("preferred_pickup", sa.String(), nullable=True),
+            sa.Column("created_at", sa.DateTime(timezone=True), nullable=True),
+        )
+    if "logistics_partners" not in existing_tables:
+        op.create_table(
+            "logistics_partners",
+            sa.Column("id", sa.String(), primary_key=True),
+            sa.Column("user_id", sa.String(), sa.ForeignKey("users.id", ondelete="CASCADE"), nullable=False),
+            sa.Column("vehicle_type", sa.String(), nullable=False),
+            sa.Column("capacity_kg", sa.Float(), nullable=False),
+            sa.Column("current_load_kg", sa.Float(), server_default="0.0", nullable=False),
+            sa.Column("is_active", sa.Boolean(), server_default=sa.true(), nullable=False),
+            sa.Column("created_at", sa.DateTime(timezone=True), nullable=True),
+        )
+    if "produce" not in existing_tables:
+        op.create_table(
+            "produce",
+            sa.Column("id", sa.String(), primary_key=True),
+            sa.Column("farmer_id", sa.String(), sa.ForeignKey("farmer_profiles.id", ondelete="CASCADE"), nullable=False),
+            sa.Column("product_name", sa.String(), nullable=False),
+            sa.Column("category", sa.String(), nullable=True),
+            sa.Column("description", sa.String(), nullable=True),
+            sa.Column("quantity_available", sa.Float(), nullable=False),
+            sa.Column("unit", sa.String(), server_default="kg", nullable=False),
+            sa.Column("price_per_unit", sa.Float(), nullable=False),
+            sa.Column("quality_grade", sa.String(), server_default="Standard", nullable=True),
+            sa.Column("status", sa.String(), server_default="available", nullable=False),
+            sa.Column("harvest_date", sa.DateTime(timezone=True), nullable=True),
+            sa.Column("available_date", sa.DateTime(timezone=True), nullable=True),
+            sa.Column("pickup_location", sa.String(), nullable=True),
+            sa.Column("created_at", sa.DateTime(timezone=True), nullable=True),
+            sa.Column("updated_at", sa.DateTime(timezone=True), nullable=True),
+        )
+    if "orders" not in existing_tables:
+        op.create_table(
+            "orders",
+            sa.Column("id", sa.String(), primary_key=True),
+            sa.Column("buyer_id", sa.String(), sa.ForeignKey("users.id"), nullable=False),
+            sa.Column("farmer_id", sa.String(), sa.ForeignKey("farmer_profiles.id"), nullable=False),
+            sa.Column("order_type", sa.String(), nullable=False),
+            sa.Column("status", sa.String(), nullable=False),
+            sa.Column("total_amount", sa.Float(), nullable=False),
+            sa.Column("pickup_address", sa.String(), nullable=True),
+            sa.Column("dropoff_address", sa.String(), nullable=True),
+            sa.Column("distance_km", sa.Float(), nullable=True),
+            sa.Column("logistics_cost", sa.Float(), server_default="0.0", nullable=True),
+            sa.Column("platform_fee", sa.Float(), server_default="0.0", nullable=True),
+            sa.Column("farmer_share", sa.Float(), server_default="0.0", nullable=True),
+            sa.Column("delivery_pincode", sa.String(), nullable=True),
+            sa.Column("delivery_mode", sa.String(), server_default="home_delivery", nullable=True),
+            sa.Column("shared_drop_point_id", sa.String(), nullable=True),
+            sa.Column("dispatched_at", sa.DateTime(timezone=True), nullable=True),
+            sa.Column("delivered_at", sa.DateTime(timezone=True), nullable=True),
+            sa.Column("cancelled_at", sa.DateTime(timezone=True), nullable=True),
+            sa.Column("created_at", sa.DateTime(timezone=True), nullable=True),
+            sa.Column("updated_at", sa.DateTime(timezone=True), nullable=True),
+        )
+    if "order_items" not in existing_tables:
+        op.create_table(
+            "order_items",
+            sa.Column("id", sa.String(), primary_key=True),
+            sa.Column("order_id", sa.String(), sa.ForeignKey("orders.id", ondelete="CASCADE"), nullable=False),
+            sa.Column("produce_id", sa.String(), sa.ForeignKey("produce.id"), nullable=False),
+            sa.Column("quantity", sa.Float(), nullable=False),
+            sa.Column("price_at_order", sa.Float(), nullable=False),
+        )
+    if "delivery_batches" not in existing_tables:
+        op.create_table(
+            "delivery_batches",
+            sa.Column("id", sa.String(), primary_key=True),
+            sa.Column("batch_code", sa.String(), nullable=True),
+            sa.Column("vehicle_id", sa.String(), sa.ForeignKey("logistics_partners.id"), nullable=True),
+            sa.Column("zone_id", sa.String(), nullable=True),
+            sa.Column("delivery_mode", sa.String(), server_default="home_delivery", nullable=True),
+            sa.Column("shared_drop_point_id", sa.String(), nullable=True),
+            sa.Column("status", sa.String(), nullable=False),
+            sa.Column("max_weight_kg", sa.Float(), server_default="500.0", nullable=True),
+            sa.Column("max_orders", sa.Integer(), server_default="50", nullable=True),
+            sa.Column("cutoff_time", sa.DateTime(timezone=True), nullable=True),
+            sa.Column("is_below_threshold", sa.Boolean(), server_default=sa.false(), nullable=True),
+            sa.Column("needs_review", sa.Boolean(), server_default=sa.false(), nullable=True),
+            sa.Column("created_at", sa.DateTime(timezone=True), nullable=True),
+            sa.Column("updated_at", sa.DateTime(timezone=True), nullable=True),
+        )
+    if "deliveries" not in existing_tables:
+        op.create_table(
+            "deliveries",
+            sa.Column("id", sa.String(), primary_key=True),
+            sa.Column("order_id", sa.String(), sa.ForeignKey("orders.id"), nullable=False),
+            sa.Column("batch_id", sa.String(), sa.ForeignKey("delivery_batches.id"), nullable=True),
+            sa.Column("delivery_mode", sa.String(), server_default="home_delivery", nullable=True),
+            sa.Column("shared_drop_point_id", sa.String(), nullable=True),
+            sa.Column("status", sa.String(), nullable=False),
+            sa.Column("pickup_time", sa.DateTime(timezone=True), nullable=True),
+            sa.Column("delivery_time", sa.DateTime(timezone=True), nullable=True),
+            sa.Column("receiver_confirmed_at", sa.DateTime(timezone=True), nullable=True),
+            sa.Column("receiver_confirmation_notes", sa.String(), nullable=True),
+            sa.Column("created_at", sa.DateTime(timezone=True), nullable=True),
+            sa.Column("updated_at", sa.DateTime(timezone=True), nullable=True),
+        )
+    if "payments" not in existing_tables:
+        op.create_table(
+            "payments",
+            sa.Column("id", sa.String(), primary_key=True),
+            sa.Column("order_id", sa.String(), sa.ForeignKey("orders.id"), nullable=False),
+            sa.Column("amount", sa.Float(), nullable=False),
+            sa.Column("status", sa.String(), nullable=False),
+            sa.Column("platform_fee", sa.Float(), server_default="0.0", nullable=True),
+            sa.Column("logistics_share", sa.Float(), server_default="0.0", nullable=True),
+            sa.Column("farmer_share", sa.Float(), server_default="0.0", nullable=True),
+            sa.Column("escrow_held", sa.Boolean(), server_default=sa.true(), nullable=True),
+            sa.Column("held_amount", sa.Float(), server_default="0.0", nullable=True),
+            sa.Column("gateway_provider", sa.String(), server_default="mock", nullable=True),
+            sa.Column("gateway_order_id", sa.String(), nullable=True),
+            sa.Column("gateway_payment_id", sa.String(), nullable=True),
+            sa.Column("gateway_signature", sa.String(), nullable=True),
+            sa.Column("gateway_status", sa.String(), nullable=True),
+            sa.Column("refund_status", sa.String(), nullable=True),
+            sa.Column("refund_amount", sa.Float(), server_default="0.0", nullable=True),
+            sa.Column("buyer_confirmed_at", sa.DateTime(timezone=True), nullable=True),
+            sa.Column("payout_released_at", sa.DateTime(timezone=True), nullable=True),
+            sa.Column("created_at", sa.DateTime(timezone=True), nullable=True),
+            sa.Column("updated_at", sa.DateTime(timezone=True), nullable=True),
+        )
+    if "mandi_price_records" not in existing_tables:
+        op.create_table(
+            "mandi_price_records",
+            sa.Column("id", sa.String(), primary_key=True),
+            sa.Column("state", sa.String(), nullable=False, index=True),
+            sa.Column("district", sa.String(), nullable=False, index=True),
+            sa.Column("market", sa.String(), nullable=False, index=True),
+            sa.Column("commodity", sa.String(), nullable=False, index=True),
+            sa.Column("variety", sa.String(), server_default="Common", nullable=False),
+            sa.Column("arrival_date", sa.String(), nullable=False, index=True),
+            sa.Column("min_price", sa.Float(), nullable=False),
+            sa.Column("max_price", sa.Float(), nullable=False),
+            sa.Column("modal_price", sa.Float(), nullable=False),
+            sa.Column("arrivals_ton", sa.Float(), server_default="0.0", nullable=False),
+            sa.Column("source", sa.String(), server_default="seed", nullable=False),
+            sa.Column("fetched_at", sa.DateTime(timezone=True), nullable=True),
+            sa.Column("created_at", sa.DateTime(timezone=True), nullable=True),
+            sa.UniqueConstraint("state", "district", "market", "commodity", "variety", "arrival_date", name="uq_mandi_record"),
+        )
+
     # 1. delivery_zones table
     if "delivery_zones" not in existing_tables:
         op.create_table(
