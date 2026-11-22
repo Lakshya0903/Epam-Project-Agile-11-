@@ -11,7 +11,7 @@ from datetime import datetime, timezone
 
 from sqlalchemy import (
     Column, String, Integer, Float, Boolean, DateTime, ForeignKey,
-    Enum as SAEnum, Text
+    Enum as SAEnum, Text, UniqueConstraint, Index
 )
 from sqlalchemy.orm import relationship
 
@@ -479,14 +479,51 @@ class MandiPriceRecord(Base):
     __tablename__ = "mandi_price_records"
 
     id = Column(String, primary_key=True, default=gen_uuid)
-    state = Column(String, nullable=False)
-    district = Column(String, nullable=False)
-    market = Column(String, nullable=False)
+    state = Column(String, nullable=False, index=True)
+    district = Column(String, nullable=False, index=True)
+    market = Column(String, nullable=False, index=True)
     commodity = Column(String, nullable=False, index=True)
     variety = Column(String, default="Common")
-    arrival_date = Column(String, nullable=False)   # YYYY-MM-DD
+    arrival_date = Column(String, nullable=False, index=True)   # YYYY-MM-DD
     min_price = Column(Float, nullable=False)       # INR per Quintal
     max_price = Column(Float, nullable=False)
     modal_price = Column(Float, nullable=False)
     arrivals_ton = Column(Float, default=0.0)
+    source = Column(String, default="seed", nullable=False)   # 'ogd_api', 'manual_import', 'seed'
+    fetched_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
     created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+
+    __table_args__ = (
+        UniqueConstraint("state", "district", "market", "commodity", "variety", "arrival_date", name="uq_mandi_record"),
+        Index("ix_mandi_query", "state", "district", "market", "commodity", "arrival_date"),
+    )
+
+
+class MandiCacheMetadata(Base):
+    """
+    On-demand mandi API caching & fetch provenance tracker.
+    Tracks when a (state, district, market, commodity) scope was last fetched from the official source,
+    how fresh the cached data is, and the status of upstream requests.
+    """
+    __tablename__ = "mandi_cache_metadata"
+
+    id = Column(String, primary_key=True, default=gen_uuid)
+    state = Column(String, default="All", nullable=False, index=True)
+    district = Column(String, nullable=False, index=True)
+    market = Column(String, nullable=True, index=True)
+    commodity = Column(String, nullable=False, index=True)
+    last_fetched_at = Column(DateTime, nullable=True)  # Kept for backward compatibility
+    last_successful_fetch_at = Column(DateTime, nullable=True)
+    last_attempted_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+    status = Column(String, default="success")  # 'success', 'failed', 'cached'
+    record_count = Column(Integer, default=0)
+    last_successful_record_count = Column(Integer, default=0)
+    error_message = Column(String, nullable=True)
+    cooldown_until = Column(DateTime, nullable=True)
+    source = Column(String, default="ogd_api")
+    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+    updated_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
+
+    __table_args__ = (
+        UniqueConstraint("state", "district", "market", "commodity", name="uq_mandi_cache_scope"),
+    )
