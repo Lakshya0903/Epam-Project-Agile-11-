@@ -1,6 +1,4 @@
 """
-FarmCart Mandi Price Data Service
-Primary Maintainer: Swyam Shukla (Database Lead)
 Extended for Phase 3:
   - On-Demand API Ingestion with Transparent TTL Caching & Failure Cooldown
   - Graceful Stale-Cache Fallback on Upstream Failure without Data Erasure
