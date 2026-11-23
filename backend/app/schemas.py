@@ -1,3 +1,4 @@
+
 """
 Pydantic Request & Response Validation Schemas
 Primary Maintainer: Swyam Shukla (Database Lead)
@@ -577,6 +578,7 @@ class MandiPriceCreate(BaseModel):
     max_price: float
     modal_price: float
     arrivals_ton: float = 0.0
+    source: str = "manual_import"
 
 
 class MandiPriceRecordOut(BaseModel):
@@ -591,6 +593,111 @@ class MandiPriceRecordOut(BaseModel):
     max_price: float
     modal_price: float
     arrivals_ton: float
+    modal_price_kg: Optional[float] = None
+    min_price_kg: Optional[float] = None
+    max_price_kg: Optional[float] = None
+    source: Optional[str] = "seed"
+    fetched_at: Optional[datetime] = None
+    created_at: Optional[datetime] = None
 
     class Config:
         from_attributes = True
+
+
+class MandiPriceHistoryOut(BaseModel):
+    records: List[MandiPriceRecordOut]
+    total_count: int
+    commodity: str
+    state: Optional[str] = None
+    district: Optional[str] = None
+    market: Optional[str] = None
+    earliest_date: Optional[str] = None
+    latest_date: Optional[str] = None
+    is_stale: bool = False
+    source: str = "ogd_api"
+    last_fetched_at: Optional[datetime] = None
+    last_successful_fetch_at: Optional[datetime] = None
+    last_attempted_at: Optional[datetime] = None
+
+
+class MandiDailyPoint(BaseModel):
+    date: str
+    modal_price_quintal: float
+    modal_price_kg: float
+    min_price_quintal: float
+    max_price_quintal: float
+    arrivals_ton: float = 0.0
+
+
+class MandiSummaryOut(BaseModel):
+    commodity: str
+    canonical_commodity: str
+    state: Optional[str] = None
+    district: Optional[str] = None
+    market: Optional[str] = None
+    latest_arrival_date: Optional[str] = None
+    latest_modal_quintal: float
+    latest_modal_kg: float
+    latest_min_quintal: float
+    latest_min_kg: float
+    latest_max_quintal: float
+    latest_max_kg: float
+    moving_average_kg: float
+    moving_average_label: str = "7-observation moving average"
+    historical_min_quintal: float
+    historical_max_quintal: float
+    historical_min_kg: float
+    historical_max_kg: float
+    price_change_pct: float
+    trend_direction: str  # "upward", "downward", "stable"
+    sample_days: int
+    date_range_start: Optional[str] = None
+    date_range_end: Optional[str] = None
+    daily_series: List[MandiDailyPoint] = []
+    is_stale: bool = False
+    data_source: str = "ogd_api"
+    last_fetched_at: Optional[datetime] = None
+    last_successful_fetch_at: Optional[datetime] = None
+    last_attempted_at: Optional[datetime] = None
+
+
+class SellingPriceGuidanceOut(BaseModel):
+    commodity: str
+    canonical_commodity: str
+    state: Optional[str] = None
+    district: Optional[str] = None
+    market: Optional[str] = None
+    is_sufficient: bool
+    reason_if_insufficient: Optional[str] = None
+    sample_observations: int = 0
+    date_window_days: int = 90
+    earliest_observation: Optional[str] = None
+    latest_observation: Optional[str] = None
+    q1_quintal: Optional[float] = None
+    q3_quintal: Optional[float] = None
+    suggested_min_price_kg: Optional[float] = None
+    suggested_max_price_kg: Optional[float] = None
+    prevailing_modal_price_kg: Optional[float] = None
+    disclaimer: str = "Indicative market-based price guidance — not a guaranteed selling price. Farmer retains complete control."
+
+
+class MandiCSVImportResult(BaseModel):
+    success: bool
+    filename: str
+    total_rows: int
+    inserted: int
+    updated: int
+    skipped: int
+    rejected: int
+    errors: List[str] = []
+    imported_at: datetime
+
+
+class MandiStatusOut(BaseModel):
+    ogd_configured: bool
+    ogd_resource_uuid: str
+    cache_ttl_hours: float
+    total_records: int
+    commodity_counts: Dict[str, int]
+    recent_fetches: List[Dict[str, Any]] = []
+Displaying schemas.py.
