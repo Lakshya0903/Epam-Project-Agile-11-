@@ -1,4 +1,4 @@
-# Python virtual environments
+ Python virtual environments
 .venv/
 venv/
 
@@ -19,3 +19,7 @@ staticfiles/
 # Environment variables
 .env
 !.env.example
+
+# Uploads & local SQLite
+uploads/
+*.db
