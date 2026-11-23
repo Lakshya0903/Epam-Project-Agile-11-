@@ -44,7 +44,20 @@ const TRANSLATIONS = {
     agent_h3: "Agent-Assisted Registration",
     agent_p: "Having trouble creating your account? Contact our helpline and FarmCart can send an agent to assist you with account creation and onboarding.",
     agent_btn: "Request an Agent",
-    footer: "FarmCart — Direct Farm-to-Consumer Marketplace."
+    footer: "FarmCart — Direct Farm-to-Consumer Marketplace.",
+    dashboard_title: "Dashboard — FarmCart",
+    farmer_title: "Farmer / FPO",
+    manage_products: "Manage your products",
+    add_product: "Add product details",
+    product_name: "Product name",
+    quantity: "Quantity",
+    unit: "Unit",
+    quality_grade: "Quality grade",
+    price_per_unit: "Price per unit (₹)",
+    available_date: "Available date",
+    btn_list_product: "List on platform",
+    marketplace_title: "Marketplace",
+    btn_logout: "Log out"
   },
  
   hi: {

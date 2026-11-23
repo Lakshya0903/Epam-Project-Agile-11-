@@ -19,3 +19,7 @@ staticfiles/
 # Environment variables
 .env
 !.env.example
+
+# Uploads & local SQLite
+uploads/
+*.db

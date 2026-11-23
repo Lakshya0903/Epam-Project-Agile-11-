@@ -1,6 +1,3 @@
-
-orders.py
-100%
 """
 Orders Router
 Primary Maintainer: Hemant Yadav & Lakshya Raj Malviya

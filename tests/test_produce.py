@@ -4,7 +4,7 @@ Author: Aparna Jha (Testing Engineer)
 """
 
 import unittest
-from datetime import datetime
+from datetime import datetime, timezone
 import sys
 import os
 
@@ -70,7 +70,7 @@ class TestProduceCatalog(unittest.TestCase):
             unit="kg",
             quality_grade="A",
             price_per_unit=120.0,
-            available_date=datetime.utcnow(),
+            available_date=datetime.now(timezone.utc),
             pickup_location="Ratnagiri, Maharashtra",
             status=models.ProduceStatus.available,
         )
