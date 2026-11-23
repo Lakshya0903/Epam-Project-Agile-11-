@@ -281,3 +281,4 @@ def record_mandi_price(
 ):
     """Insert a single validated mandi benchmark record (Admin only)."""
     return add_mandi_price_record(db, payload)
+Displaying analytics.py.
