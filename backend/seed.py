@@ -68,6 +68,12 @@ test_users = [
         "password": "Test123!",
         "role": models.UserRole.admin,
     },
+    {
+        "name": "Dispute Reviewer",
+        "email": "reviewer@test.com",
+        "password": "Test123!",
+        "role": models.UserRole.reviewer,
+    },
 ]
 
 for data in test_users:
@@ -213,23 +219,318 @@ if farmer_profile:
             print(f"Created produce: {item['product_name']}")
 
 
-# ---------- 4. BENCHMARK MANDI PRICE RECORDS ----------
+# ---------- 4. BENCHMARK MANDI PRICE RECORDS (PHASE 3) ----------
 
 mandi_records = [
-    dict(state="Delhi", district="North", market="Azadpur", commodity="Tomato", arrival_date="2026-11-01", min_price=2400, max_price=3300, modal_price=2850, arrivals_ton=195),
-    dict(state="Maharashtra", district="Nashik", market="Lasalgaon", commodity="Onion", arrival_date="2026-11-01", min_price=1850, max_price=2700, modal_price=2300, arrivals_ton=820),
-    dict(state="Uttar Pradesh", district="Agra", market="Agra", commodity="Potato", arrival_date="2026-11-01", min_price=1350, max_price=1750, modal_price=1550, arrivals_ton=510),
+    # Tomato (Delhi - Azadpur Mandi)
+    dict(state="Delhi", district="North", market="Azadpur", commodity="Tomato", variety="Hybrid", arrival_date="2026-10-26", min_price=1800, max_price=2600, modal_price=2200, arrivals_ton=320, source="seed"),
+    dict(state="Delhi", district="North", market="Azadpur", commodity="Tomato", variety="Hybrid", arrival_date="2026-10-27", min_price=1900, max_price=2700, modal_price=2300, arrivals_ton=290, source="seed"),
+    dict(state="Delhi", district="North", market="Azadpur", commodity="Tomato", variety="Hybrid", arrival_date="2026-10-28", min_price=2000, max_price=2800, modal_price=2400, arrivals_ton=270, source="seed"),
+    dict(state="Delhi", district="North", market="Azadpur", commodity="Tomato", variety="Hybrid", arrival_date="2026-10-29", min_price=2100, max_price=2900, modal_price=2500, arrivals_ton=250, source="seed"),
+    dict(state="Delhi", district="North", market="Azadpur", commodity="Tomato", variety="Hybrid", arrival_date="2026-10-30", min_price=2200, max_price=3100, modal_price=2650, arrivals_ton=230, source="seed"),
+    dict(state="Delhi", district="North", market="Azadpur", commodity="Tomato", variety="Hybrid", arrival_date="2026-10-31", min_price=2300, max_price=3200, modal_price=2750, arrivals_ton=210, source="seed"),
+    dict(state="Delhi", district="North", market="Azadpur", commodity="Tomato", variety="Hybrid", arrival_date="2026-11-01", min_price=2400, max_price=3300, modal_price=2850, arrivals_ton=195, source="seed"),
+
+    # Onion (Maharashtra - Lasalgaon Mandi, Nashik)
+    dict(state="Maharashtra", district="Nashik", market="Lasalgaon", commodity="Onion", variety="Red", arrival_date="2026-10-26", min_price=1600, max_price=2400, modal_price=2050, arrivals_ton=950, source="seed"),
+    dict(state="Maharashtra", district="Nashik", market="Lasalgaon", commodity="Onion", variety="Red", arrival_date="2026-10-27", min_price=1650, max_price=2450, modal_price=2100, arrivals_ton=920, source="seed"),
+    dict(state="Maharashtra", district="Nashik", market="Lasalgaon", commodity="Onion", variety="Red", arrival_date="2026-10-28", min_price=1700, max_price=2500, modal_price=2150, arrivals_ton=890, source="seed"),
+    dict(state="Maharashtra", district="Nashik", market="Lasalgaon", commodity="Onion", variety="Red", arrival_date="2026-10-29", min_price=1700, max_price=2550, modal_price=2150, arrivals_ton=900, source="seed"),
+    dict(state="Maharashtra", district="Nashik", market="Lasalgaon", commodity="Onion", variety="Red", arrival_date="2026-10-30", min_price=1750, max_price=2600, modal_price=2200, arrivals_ton=870, source="seed"),
+    dict(state="Maharashtra", district="Nashik", market="Lasalgaon", commodity="Onion", variety="Red", arrival_date="2026-10-31", min_price=1800, max_price=2650, modal_price=2250, arrivals_ton=850, source="seed"),
+    dict(state="Maharashtra", district="Nashik", market="Lasalgaon", commodity="Onion", variety="Red", arrival_date="2026-11-01", min_price=1850, max_price=2700, modal_price=2300, arrivals_ton=820, source="seed"),
+
+    # Potato (Uttar Pradesh - Agra Mandi)
+    dict(state="Uttar Pradesh", district="Agra", market="Agra", commodity="Potato", variety="Desi", arrival_date="2026-10-26", min_price=1200, max_price=1600, modal_price=1400, arrivals_ton=600, source="seed"),
+    dict(state="Uttar Pradesh", district="Agra", market="Agra", commodity="Potato", variety="Desi", arrival_date="2026-10-27", min_price=1220, max_price=1620, modal_price=1420, arrivals_ton=580, source="seed"),
+    dict(state="Uttar Pradesh", district="Agra", market="Agra", commodity="Potato", variety="Desi", arrival_date="2026-10-28", min_price=1250, max_price=1650, modal_price=1450, arrivals_ton=570, source="seed"),
+    dict(state="Uttar Pradesh", district="Agra", market="Agra", commodity="Potato", variety="Desi", arrival_date="2026-10-29", min_price=1280, max_price=1680, modal_price=1480, arrivals_ton=550, source="seed"),
+    dict(state="Uttar Pradesh", district="Agra", market="Agra", commodity="Potato", variety="Desi", arrival_date="2026-10-30", min_price=1300, max_price=1700, modal_price=1500, arrivals_ton=540, source="seed"),
+    dict(state="Uttar Pradesh", district="Agra", market="Agra", commodity="Potato", variety="Desi", arrival_date="2026-10-31", min_price=1320, max_price=1720, modal_price=1520, arrivals_ton=530, source="seed"),
+    dict(state="Uttar Pradesh", district="Agra", market="Agra", commodity="Potato", variety="Desi", arrival_date="2026-11-01", min_price=1350, max_price=1750, modal_price=1550, arrivals_ton=510, source="seed"),
+
+    # Wheat (Punjab - Khanna Mandi, Ludhiana)
+    dict(state="Punjab", district="Ludhiana", market="Khanna", commodity="Wheat", variety="Sharbati", arrival_date="2026-10-26", min_price=2200, max_price=2500, modal_price=2350, arrivals_ton=1200, source="seed"),
+    dict(state="Punjab", district="Ludhiana", market="Khanna", commodity="Wheat", variety="Sharbati", arrival_date="2026-10-27", min_price=2220, max_price=2520, modal_price=2370, arrivals_ton=1150, source="seed"),
+    dict(state="Punjab", district="Ludhiana", market="Khanna", commodity="Wheat", variety="Sharbati", arrival_date="2026-10-28", min_price=2250, max_price=2550, modal_price=2400, arrivals_ton=1100, source="seed"),
+    dict(state="Punjab", district="Ludhiana", market="Khanna", commodity="Wheat", variety="Sharbati", arrival_date="2026-10-29", min_price=2260, max_price=2560, modal_price=2410, arrivals_ton=1080, source="seed"),
+    dict(state="Punjab", district="Ludhiana", market="Khanna", commodity="Wheat", variety="Sharbati", arrival_date="2026-10-30", min_price=2280, max_price=2580, modal_price=2430, arrivals_ton=1050, source="seed"),
+    dict(state="Punjab", district="Ludhiana", market="Khanna", commodity="Wheat", variety="Sharbati", arrival_date="2026-10-31", min_price=2300, max_price=2600, modal_price=2450, arrivals_ton=1020, source="seed"),
+    dict(state="Punjab", district="Ludhiana", market="Khanna", commodity="Wheat", variety="Sharbati", arrival_date="2026-11-01", min_price=2320, max_price=2620, modal_price=2470, arrivals_ton=1000, source="seed"),
+
+    # Rice (Haryana - Karnal Mandi)
+    dict(state="Haryana", district="Karnal", market="Karnal", commodity="Rice", variety="Basmati", arrival_date="2026-10-26", min_price=3400, max_price=4200, modal_price=3800, arrivals_ton=800, source="seed"),
+    dict(state="Haryana", district="Karnal", market="Karnal", commodity="Rice", variety="Basmati", arrival_date="2026-10-27", min_price=3450, max_price=4250, modal_price=3850, arrivals_ton=780, source="seed"),
+    dict(state="Haryana", district="Karnal", market="Karnal", commodity="Rice", variety="Basmati", arrival_date="2026-10-28", min_price=3500, max_price=4300, modal_price=3900, arrivals_ton=750, source="seed"),
+    dict(state="Haryana", district="Karnal", market="Karnal", commodity="Rice", variety="Basmati", arrival_date="2026-10-29", min_price=3520, max_price=4320, modal_price=3920, arrivals_ton=730, source="seed"),
+    dict(state="Haryana", district="Karnal", market="Karnal", commodity="Rice", variety="Basmati", arrival_date="2026-10-30", min_price=3550, max_price=4350, modal_price=3950, arrivals_ton=710, source="seed"),
+    dict(state="Haryana", district="Karnal", market="Karnal", commodity="Rice", variety="Basmati", arrival_date="2026-10-31", min_price=3600, max_price=4400, modal_price=4000, arrivals_ton=690, source="seed"),
+    dict(state="Haryana", district="Karnal", market="Karnal", commodity="Rice", variety="Basmati", arrival_date="2026-11-01", min_price=3650, max_price=4450, modal_price=4050, arrivals_ton=670, source="seed"),
 ]
 
 for rec in mandi_records:
     exists = db.query(models.MandiPriceRecord).filter(
+        models.MandiPriceRecord.state == rec["state"],
+        models.MandiPriceRecord.district == rec["district"],
         models.MandiPriceRecord.market == rec["market"],
         models.MandiPriceRecord.commodity == rec["commodity"],
         models.MandiPriceRecord.arrival_date == rec["arrival_date"],
     ).first()
     if not exists:
         db.add(models.MandiPriceRecord(**rec))
-        print(f"Created mandi benchmark: {rec['commodity']} @ {rec['market']}")
+        print(f"Created mandi benchmark: {rec['commodity']} @ {rec['market']} ({rec['arrival_date']})")
+
+
+
+# ---------- 5. PHASE 2: NATIONWIDE DELIVERY ZONES & DROP POINTS ----------
+
+import json
+
+zones_data = [
+    dict(
+        name="Delhi NCR Central Zone",
+        state="Delhi",
+        district="Central",
+        city="New Delhi",
+        serviceable_pincodes=json.dumps(["110001", "110002", "110003", "110004", "110005", "110006", "110049", "110052"]),
+        is_active=True,
+        min_batch_threshold_kg=25.0,
+        max_batch_weight_kg=1000.0,
+        max_batch_orders=50,
+        preparation_buffer_hours=4.0,
+        dispatch_buffer_hours=2.0,
+        allows_home_delivery=True,
+        allows_drop_point=True,
+    ),
+    dict(
+        name="Mumbai Suburban Zone",
+        state="Maharashtra",
+        district="Mumbai Suburban",
+        city="Mumbai",
+        serviceable_pincodes=json.dumps(["400053", "400058", "400069", "400050", "400051"]),
+        is_active=True,
+        min_batch_threshold_kg=20.0,
+        max_batch_weight_kg=800.0,
+        max_batch_orders=40,
+        preparation_buffer_hours=4.0,
+        dispatch_buffer_hours=2.0,
+        allows_home_delivery=True,
+        allows_drop_point=True,
+    ),
+    dict(
+        name="Nashik Agri Cluster Zone",
+        state="Maharashtra",
+        district="Nashik",
+        city="Nashik",
+        serviceable_pincodes=json.dumps(["422001", "422002", "422003", "422301"]),
+        is_active=True,
+        min_batch_threshold_kg=30.0,
+        max_batch_weight_kg=1500.0,
+        max_batch_orders=60,
+        preparation_buffer_hours=3.0,
+        dispatch_buffer_hours=2.0,
+        allows_home_delivery=True,
+        allows_drop_point=True,
+    ),
+]
+
+created_zones = {}
+for zd in zones_data:
+    z = db.query(models.DeliveryZone).filter(models.DeliveryZone.name == zd["name"]).first()
+    if not z:
+        z = models.DeliveryZone(**zd)
+        db.add(z)
+        db.flush()
+        print(f"Created delivery zone: {z.name}")
+    created_zones[z.name] = z
+
+delhi_zone = created_zones.get("Delhi NCR Central Zone")
+mumbai_zone = created_zones.get("Mumbai Suburban Zone")
+
+drop_points_data = [
+    dict(
+        zone_id=delhi_zone.id if delhi_zone else None,
+        name="Connaught Place Community Hub",
+        address_line="Block B, Inner Circle, Connaught Place",
+        locality="Connaught Place",
+        city="New Delhi",
+        district="Central",
+        state="Delhi",
+        pincode="110001",
+        operating_hours="08:00 - 20:00",
+        contact_phone="9811000001",
+        capacity_orders=100,
+        is_active=True,
+        latitude=28.63,
+        longitude=77.21,
+    ),
+    dict(
+        zone_id=delhi_zone.id if delhi_zone else None,
+        name="South Extension Market Cooperative Hub",
+        address_line="Main Market, Part II, South Extension",
+        locality="South Extension",
+        city="New Delhi",
+        district="South",
+        state="Delhi",
+        pincode="110049",
+        operating_hours="09:00 - 21:00",
+        contact_phone="9811000049",
+        capacity_orders=80,
+        is_active=True,
+        latitude=28.57,
+        longitude=77.22,
+    ),
+    dict(
+        zone_id=mumbai_zone.id if mumbai_zone else None,
+        name="Andheri West Station Drop Point",
+        address_line="Near Platform 1, Station Road, Andheri West",
+        locality="Andheri West",
+        city="Mumbai",
+        district="Mumbai Suburban",
+        state="Maharashtra",
+        pincode="400058",
+        operating_hours="08:00 - 20:00",
+        contact_phone="9820000058",
+        capacity_orders=120,
+        is_active=True,
+        latitude=19.12,
+        longitude=72.84,
+    ),
+]
+
+for dpd in drop_points_data:
+    if dpd["zone_id"]:
+        dp = db.query(models.SharedDropPoint).filter(models.SharedDropPoint.name == dpd["name"]).first()
+        if not dp:
+            dp = models.SharedDropPoint(**dpd)
+            db.add(dp)
+            print(f"Created shared drop point: {dp.name}")
+
+
+
+# ---------- 5. PHASE 2: NATIONWIDE DELIVERY ZONES & DROP POINTS ----------
+
+import json
+
+zones_data = [
+    dict(
+        name="Delhi NCR Central Zone",
+        state="Delhi",
+        district="Central",
+        city="New Delhi",
+        serviceable_pincodes=json.dumps(["110001", "110002", "110003", "110004", "110005", "110006", "110049", "110052"]),
+        is_active=True,
+        min_batch_threshold_kg=25.0,
+        max_batch_weight_kg=1000.0,
+        max_batch_orders=50,
+        preparation_buffer_hours=4.0,
+        dispatch_buffer_hours=2.0,
+        allows_home_delivery=True,
+        allows_drop_point=True,
+    ),
+    dict(
+        name="Mumbai Suburban Zone",
+        state="Maharashtra",
+        district="Mumbai Suburban",
+        city="Mumbai",
+        serviceable_pincodes=json.dumps(["400053", "400058", "400069", "400050", "400051"]),
+        is_active=True,
+        min_batch_threshold_kg=20.0,
+        max_batch_weight_kg=800.0,
+        max_batch_orders=40,
+        preparation_buffer_hours=4.0,
+        dispatch_buffer_hours=2.0,
+        allows_home_delivery=True,
+        allows_drop_point=True,
+    ),
+    dict(
+        name="Nashik Agri Cluster Zone",
+        state="Maharashtra",
+        district="Nashik",
+        city="Nashik",
+        serviceable_pincodes=json.dumps(["422001", "422002", "422003", "422301"]),
+        is_active=True,
+        min_batch_threshold_kg=30.0,
+        max_batch_weight_kg=1500.0,
+        max_batch_orders=60,
+        preparation_buffer_hours=3.0,
+        dispatch_buffer_hours=2.0,
+        allows_home_delivery=True,
+        allows_drop_point=True,
+    ),
+]
+
+created_zones = {}
+for zd in zones_data:
+    z = db.query(models.DeliveryZone).filter(models.DeliveryZone.name == zd["name"]).first()
+    if not z:
+        z = models.DeliveryZone(**zd)
+        db.add(z)
+        db.flush()
+        print(f"Created delivery zone: {z.name}")
+    created_zones[z.name] = z
+
+delhi_zone = created_zones.get("Delhi NCR Central Zone")
+mumbai_zone = created_zones.get("Mumbai Suburban Zone")
+
+drop_points_data = [
+    dict(
+        zone_id=delhi_zone.id if delhi_zone else None,
+        name="Connaught Place Community Hub",
+        address_line="Block B, Inner Circle, Connaught Place",
+        locality="Connaught Place",
+        city="New Delhi",
+        district="Central",
+        state="Delhi",
+        pincode="110001",
+        operating_hours="08:00 - 20:00",
+        contact_phone="9811000001",
+        capacity_orders=100,
+        is_active=True,
+        latitude=28.63,
+        longitude=77.21,
+    ),
+    dict(
+        zone_id=delhi_zone.id if delhi_zone else None,
+        name="South Extension Market Cooperative Hub",
+        address_line="Main Market, Part II, South Extension",
+        locality="South Extension",
+        city="New Delhi",
+        district="South",
+        state="Delhi",
+        pincode="110049",
+        operating_hours="09:00 - 21:00",
+        contact_phone="9811000049",
+        capacity_orders=80,
+        is_active=True,
+        latitude=28.57,
+        longitude=77.22,
+    ),
+    dict(
+        zone_id=mumbai_zone.id if mumbai_zone else None,
+        name="Andheri West Station Drop Point",
+        address_line="Near Platform 1, Station Road, Andheri West",
+        locality="Andheri West",
+        city="Mumbai",
+        district="Mumbai Suburban",
+        state="Maharashtra",
+        pincode="400058",
+        operating_hours="08:00 - 20:00",
+        contact_phone="9820000058",
+        capacity_orders=120,
+        is_active=True,
+        latitude=19.12,
+        longitude=72.84,
+    ),
+]
+
+for dpd in drop_points_data:
+    if dpd["zone_id"]:
+        dp = db.query(models.SharedDropPoint).filter(models.SharedDropPoint.name == dpd["name"]).first()
+        if not dp:
+            dp = models.SharedDropPoint(**dpd)
+            db.add(dp)
+            print(f"Created shared drop point: {dp.name}")
 
 
 db.commit()
@@ -244,4 +545,5 @@ print("  Buyer (Ind) : buyer@test.com / Test123!")
 print("  Buyer (Bulk): bulkbuyer@test.com / Test123!")
 print("  Logistics   : logistics@test.com / Test123!")
 print("  Admin       : admin@test.com / Test123!")
+print("  Reviewer    : reviewer@test.com / Test123!")
 print("=" * 50)

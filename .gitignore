@@ -49,6 +49,10 @@ backend/farm2market.db
 Thumbs.db
 desktop.ini
 
+# Uploads
+backend/uploads/
+uploads/
+
 # Build and distribution
 build/
 dist/
