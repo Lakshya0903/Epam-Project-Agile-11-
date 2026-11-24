@@ -3,8 +3,71 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Market Price Analytics — FarmCart</title>
+<title>Market Price Analytics & Guidance — FarmCart</title>
 <link rel="stylesheet" href="css/style.css">
+<style>
+  .provenance-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    background: var(--soft-2);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 14px 20px;
+    margin-bottom: 24px;
+    font-size: 0.9rem;
+  }
+  .provenance-meta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .filter-panel {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  @media (max-width: 768px) {
+    .filter-panel { grid-template-columns: 1fr; }
+  }
+  .guidance-box {
+    background: linear-gradient(135deg, rgba(29, 111, 66, 0.06), rgba(155, 207, 83, 0.12));
+    border: 2px solid var(--leaf);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-bottom: 28px;
+    position: relative;
+  }
+  .guidance-val {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--wheat);
+    font-family: 'Manrope', sans-serif;
+    margin: 8px 0;
+  }
+  .chart-tooltip {
+    position: absolute;
+    background: var(--paper);
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    pointer-events: none;
+    display: none;
+    z-index: 10;
+  }
+  .admin-panel {
+    border: 2px dashed var(--line);
+    background: #fff;
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-top: 32px;
+  }
+</style>
 </head>
 
 <body>
@@ -17,7 +80,19 @@
   <nav>
     <a href="index.html">Home</a>
     <a href="dashboard.html">Dashboard</a>
-    <span class="role-badge">Market Intelligence</span>
+    <span class="role-badge" id="nav-user-role">Phase 3 Intelligence</span>
+    <select id="lang-select" style="padding:4px 8px; border-radius:8px; border:1px solid var(--line); font-size:0.85rem; margin-left:8px;">
+      <option value="en">English</option>
+      <option value="hi">हिन्दी</option>
+      <option value="mr">मराठी</option>
+      <option value="ta">தமிழ்</option>
+      <option value="te">తెలుగు</option>
+      <option value="bn">বাংলা</option>
+      <option value="gu">ગુજરાતી</option>
+      <option value="kn">ಕನ್ನಡ</option>
+      <option value="ml">മലയാളം</option>
+      <option value="pa">ਪੰਜਾਬੀ</option>
+    </select>
   </nav>
 </div>
 
@@ -26,38 +101,82 @@
   <!-- HERO -->
   <section class="hero" style="padding-top:20px; padding-bottom:20px;">
     <span class="eyebrow">AGRICULTURAL MARKET INTELLIGENCE</span>
-    <h1>Wholesale Mandi Price Benchmarks</h1>
+    <h1 data-i18n="mandi_hero_title">Wholesale Mandi Price Benchmarks & Guidance</h1>
     <p>
-      Real-time price trend analytics across primary regulated APMC mandis in India. 
-      Compare prevailing modal prices with FarmCart direct realization rates.
+      Official AGMARKNET & Open Government Data price trends with 90-day rolling market analytics.
+      Provides transparent, deterministic selling-price guidance for farmers alongside traditional mandi comparisons.
     </p>
   </section>
 
-  <!-- DATA QUALITY & VERIFICATION BANNER -->
-  <div class="card" style="background:var(--soft-2); border-color:var(--line); margin-bottom:24px; padding:16px 20px;">
-    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+  <!-- LIVE PROVENANCE & CACHE STATUS BAR -->
+  <div class="provenance-bar">
+    <div class="provenance-meta">
       <div>
-        <strong>✓ Official Data Standards (Agmarknet & OGD India)</strong>
-        <div class="small-note">Benchmark dataset audited via <code>analytics/data_quality.py</code> (Hygiene Score: 91.3%)</div>
+        <strong>Scope:</strong> <span id="meta-scope">Loading geographic data...</span>
       </div>
-      <span class="badge success">Verified Benchmark Data</span>
+      <div>
+        <strong>Latest Arrival:</strong> <span id="meta-date">--</span>
+      </div>
+      <div>
+        <strong>Last Fetch:</strong> <span id="meta-fetch-time">--</span>
+      </div>
+    </div>
+    <div style="display:flex; align-items:center; gap:8px;">
+      <span class="badge" id="meta-source-badge">Source: Official OGD</span>
+      <span class="badge success" id="meta-cache-badge">Cache: Fresh</span>
     </div>
   </div>
 
-  <!-- COMMODITY SELECTOR -->
+  <!-- GEOGRAPHIC & COMMODITY FILTERS -->
   <div class="card" style="margin-bottom:24px;">
-    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+    <h3 style="margin-bottom:14px;">Geographic Filtering & Commodity Selection</h3>
+    
+    <div class="filter-panel">
       <div>
-        <label style="margin:0 0 6px 0;">Select Commodity</label>
-        <div class="tabs" style="margin-bottom:0;" id="commodity-tabs">
-          <div class="tab active" data-comm="Tomato">Tomato (Azadpur)</div>
-          <div class="tab" data-comm="Onion">Onion (Lasalgaon)</div>
-          <div class="tab" data-comm="Potato">Potato (Agra)</div>
-        </div>
+        <label for="sel-district" style="margin-bottom:6px; display:block; font-weight:600;" data-i18n="mandi_select_district">1. Select District</label>
+        <select id="sel-district" style="width:100%; padding:10px 14px; border:1px solid var(--line); border-radius:10px; background:#fff; font-size:1rem;">
+          <option value="">-- Loading Districts --</option>
+        </select>
       </div>
+
       <div>
-        <span class="small-note">Reporting Unit: <strong>INR / Quintal (100 kg)</strong></span>
+        <label for="sel-mandi" style="margin-bottom:6px; display:block; font-weight:600;" data-i18n="mandi_select_mandi">2. Select Mandi (APMC Market)</label>
+        <select id="sel-mandi" style="width:100%; padding:10px 14px; border:1px solid var(--line); border-radius:10px; background:#fff; font-size:1rem;">
+          <option value="">-- All Mandis in District --</option>
+        </select>
       </div>
+    </div>
+
+    <div>
+      <label style="margin:0 0 8px 0; display:block; font-weight:600;" data-i18n="mandi_select_commodity">3. Supported Commodity</label>
+      <div class="tabs" style="margin-bottom:0;" id="commodity-tabs">
+        <div class="tab active" data-comm="Tomato">🍅 Tomato</div>
+        <div class="tab" data-comm="Onion">🧅 Onion</div>
+        <div class="tab" data-comm="Potato">🥔 Potato</div>
+        <div class="tab" data-comm="Wheat">🌾 Wheat</div>
+        <div class="tab" data-comm="Rice">🍚 Rice</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FARMER SELLING-PRICE GUIDANCE CARD -->
+  <div class="guidance-box" id="guidance-container">
+    <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:12px;">
+      <div>
+        <span class="eyebrow" style="color:var(--wheat-dim);">💡 MARKET-BASED PRICING GUIDANCE</span>
+        <h2 style="margin:0; color:var(--paper);" data-i18n="selling_guidance_title">Indicative Farmer Selling-Price Guidance</h2>
+      </div>
+      <span class="badge" style="background:var(--soil-2); border:1px solid var(--line);" id="guidance-sample-badge">-- observations</span>
+    </div>
+
+    <div class="guidance-val" id="guidance-range-val">₹-- – ₹-- / kg</div>
+    
+    <p id="guidance-subtext" style="margin:4px 0 12px 0; color:var(--paper-dim);">
+      Based on the 25th to 75th percentile (Q1–Q3) of modal prices recorded over the 90-day window.
+    </p>
+
+    <div style="background:rgba(255,255,255,0.7); border-left:4px solid var(--wheat); padding:10px 14px; border-radius:6px; font-size:0.85rem; color:var(--paper);">
+      <strong>Transparency Notice:</strong> Indicative market-based price guidance — not a guaranteed selling price. Farmer retains complete control over listing prices.
     </div>
   </div>
 
@@ -66,51 +185,62 @@
     <div class="card">
       <span class="eyebrow">Latest Modal Price</span>
       <div class="metric-stat">
-        <span class="num" id="stat-modal-price">₹28.50/kg</span>
-        <span class="trend" id="stat-modal-quintal">₹2,850 / quintal</span>
+        <span class="num" id="stat-modal-price">₹--/kg</span>
+        <span class="trend" id="stat-modal-quintal">₹-- / quintal</span>
       </div>
     </div>
 
     <div class="card">
-      <span class="eyebrow">7-Day Moving Avg</span>
+      <span class="eyebrow" id="stat-ma7-title">7-Observation Moving Avg</span>
       <div class="metric-stat">
-        <span class="num" id="stat-ma7-price">₹25.21/kg</span>
-        <span class="trend up" id="stat-ma7-trend">Trending Upward</span>
+        <span class="num" id="stat-ma7-price">₹--/kg</span>
+        <span class="trend" id="stat-ma7-trend">--</span>
       </div>
     </div>
 
     <div class="card">
-      <span class="eyebrow">Weekly Price Spread</span>
+      <span class="eyebrow">90-Day Price Range</span>
       <div class="metric-stat">
-        <span class="num" id="stat-spread">₹15.00/kg</span>
-        <span class="trend" id="stat-spread-pct">59.5% Spread Ratio</span>
+        <span class="num" id="stat-spread">₹--/kg</span>
+        <span class="trend" id="stat-spread-pct">Min ₹-- | Max ₹--</span>
       </div>
     </div>
 
     <div class="card">
-      <span class="eyebrow">Farmer Net Gain</span>
+      <span class="eyebrow">Price Movement</span>
       <div class="metric-stat">
-        <span class="num" id="stat-farmer-gain" style="color:var(--wheat);">+₹1.14/kg</span>
-        <span class="trend" style="color:var(--wheat); font-weight:700;">+4.55% vs Mandi Net</span>
+        <span class="num" id="stat-movement">--%</span>
+        <span class="trend" id="stat-movement-label">Rolling Period Trend</span>
       </div>
     </div>
   </div>
 
   <!-- PRICE TREND CHART -->
   <div class="card" style="margin-bottom:28px;">
-    <h3>Price Trajectory (Recent Arrivals)</h3>
-    <p class="small-note">Daily modal prices plotted over the last recorded trading cycle.</p>
-    
-    <div style="width:100%; height:260px; margin-top:20px; position:relative;" id="chart-container">
-      <!-- SVG Chart dynamically injected by analytics.js -->
+    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+      <div>
+        <h3>Historical Price Trajectory (90-Day Rolling Window)</h3>
+        <p class="small-note" id="chart-date-range">Daily recorded modal prices across trading sessions.</p>
+      </div>
+      <div>
+        <span class="badge" id="chart-units-badge">Units: INR / Kilogram</span>
+      </div>
     </div>
+    
+    <div style="width:100%; height:280px; margin-top:20px; position:relative; overflow:hidden;" id="chart-container">
+      <!-- SVG Chart dynamically injected by analytics.js -->
+      <div style="display:flex; justify-content:center; align-items:center; height:100%; color:var(--paper-dim);">
+        Loading historical price series...
+      </div>
+    </div>
+    <div class="chart-tooltip" id="chart-tooltip"></div>
   </div>
 
   <!-- COMPARATIVE REALIZATION TABLE -->
-  <div class="card">
-    <h3>Economics: Traditional Mandi vs. FarmCart</h3>
+  <div class="card" style="margin-bottom:28px;">
+    <h3>Economics: Traditional Mandi vs. FarmCart Direct</h3>
     <p class="small-note">
-      Detailed fee structure showing why direct farm-to-buyer transactions yield higher farmer realization while reducing retail price inflation.
+      Detailed fee structure showing how direct farm-to-consumer transactions deliver superior farmer realization while maintaining fair retail prices.
     </p>
 
     <div class="table-responsive">
@@ -126,40 +256,71 @@
         <tbody id="comparison-table-body">
           <tr>
             <td>Commission Agent (Arhtiya) Fee</td>
-            <td>5.0% – 6.0% (Mandatory)</td>
-            <td>0.0% (No middleman)</td>
+            <td>5.0% – 6.0% (Mandatory deduction)</td>
+            <td>0.0% (Zero intermediary)</td>
             <td><strong>+6.0% Saved</strong></td>
           </tr>
           <tr>
-            <td>APMC Cess & Loading Charges</td>
+            <td>APMC Cess, Market Fee & Yard Loading</td>
             <td>4.0% – 6.0% (Deducted at yard)</td>
-            <td>0.0% (Direct farm gate pickup)</td>
+            <td>0.0% (Direct farm-gate pickup)</td>
             <td><strong>+5.0% Saved</strong></td>
           </tr>
           <tr>
             <td>Platform Technology Fee</td>
             <td>0.0%</td>
-            <td>8.0% (Transparent flat fee)</td>
+            <td>8.0% (Transparent flat platform commission)</td>
             <td>Standardized</td>
           </tr>
           <tr>
             <td><strong>Total Farmer Deductions</strong></td>
             <td style="color:var(--danger); font-weight:700;">~12.0% of Gross Value</td>
-            <td style="color:var(--wheat); font-weight:700;">8.0% Flat</td>
-            <td style="color:var(--wheat); font-weight:800;">+4.0% More Take-Home Cash</td>
+            <td style="color:var(--wheat); font-weight:700;">8.0% Flat Commission</td>
+            <td style="color:var(--wheat); font-weight:800;">+4.0% Net Take-Home Cash</td>
           </tr>
         </tbody>
       </table>
     </div>
   </div>
 
+  <!-- ADMIN OFFICIAL CSV DATA IMPORT PANEL -->
+  <div class="admin-panel" id="admin-import-panel" style="display:none;">
+    <span class="eyebrow" style="color:var(--wheat);">ADMINISTRATOR CONTROL</span>
+    <h3 data-i18n="admin_csv_import_title">Official Mandi CSV Data Import</h3>
+    <p class="small-note">
+      Upload official Agmarknet / APMC daily price CSV reports to populate historical benchmark records.
+      Validated rows are deduplicated and upserted automatically into persistence.
+    </p>
+
+    <form id="csv-import-form" style="margin-top:16px;">
+      <div style="display:flex; gap:16px; align-items:center; flex-wrap:wrap;">
+        <input type="file" id="csv-file-input" accept=".csv" required style="padding:10px; border:1px solid var(--line); border-radius:8px; background:var(--soil);">
+        <button type="submit" class="btn" id="btn-upload-csv">Upload & Process Ingestion</button>
+      </div>
+      <div id="csv-upload-msg" style="margin-top:14px;"></div>
+    </form>
+
+    <!-- Ingestion Audit Summary -->
+    <div id="csv-audit-report" style="display:none; margin-top:18px;">
+      <h4>Ingestion Audit Summary</h4>
+      <div class="grid grid-4" style="margin-top:10px;">
+        <div class="card" style="padding:12px;"><strong>Total Rows:</strong> <span id="audit-total">0</span></div>
+        <div class="card" style="padding:12px; color:var(--wheat);"><strong>Inserted:</strong> <span id="audit-inserted">0</span></div>
+        <div class="card" style="padding:12px; color:var(--info);"><strong>Updated:</strong> <span id="audit-updated">0</span></div>
+        <div class="card" style="padding:12px; color:var(--danger);"><strong>Rejected:</strong> <span id="audit-rejected">0</span></div>
+      </div>
+      <div id="audit-errors-list" style="margin-top:12px; font-size:0.85rem; color:var(--danger);"></div>
+    </div>
+  </div>
+
 </div>
 
 <footer>
-  FarmCart Market Intelligence — Analytical module powered by official data standards.
+  FarmCart Market Intelligence — Analytical module powered by official Government of India AGMARKNET standards.
 </footer>
 
 <script src="js/api.js"></script>
+<script src="js/lang.js"></script>
 <script src="js/analytics.js"></script>
 </body>
 </html>
