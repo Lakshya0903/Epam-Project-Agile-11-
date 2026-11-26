@@ -57,7 +57,16 @@ const TRANSLATIONS = {
     available_date: "Available date",
     btn_list_product: "List on platform",
     marketplace_title: "Marketplace",
-    btn_logout: "Log out"
+    btn_logout: "Log out",
+    mandi_intelligence_title: "Market Price Intelligence — FarmCart",
+    mandi_hero_title: "Wholesale Mandi Price Benchmarks",
+    mandi_select_district: "Select District",
+    mandi_select_mandi: "Select Mandi",
+    mandi_select_commodity: "Select Commodity",
+    selling_guidance_title: "Indicative Farmer Selling-Price Guidance",
+    mandi_disclaimer: "Indicative market-based price guidance — not a guaranteed selling price. Farmer retains complete control.",
+    admin_csv_import_title: "Admin Control: Official Mandi CSV Data Import",
+    market_guidance_badge: "Market Guidance"
   },
  
   hi: {
@@ -105,7 +114,16 @@ const TRANSLATIONS = {
     agent_h3: "एजेंट-सहायता प्राप्त पंजीकरण",
     agent_p: "अपना खाता बनाने में समस्या हो रही है? हमारी हेल्पलाइन से संपर्क करें, फार्मकार्ट आपकी खाता निर्माण और शुरुआत में मदद के लिए एक एजेंट भेज सकता है।",
     agent_btn: "एजेंट के लिए अनुरोध करें",
-    footer: "फार्मकार्ट — किसानों को सीधे उपभोक्ताओं से जोड़ना।"
+    footer: "फार्मकार्ट — किसानों को सीधे उपभोक्ताओं से जोड़ना।",
+    mandi_intelligence_title: "मंडी भाव एवं बाज़ार विश्लेषण — फार्मकार्ट",
+    mandi_hero_title: "थोक मंडी भाव एवं मूल्य विश्लेषण",
+    mandi_select_district: "ज़िला चुनें",
+    mandi_select_mandi: "मंडी चुनें",
+    mandi_select_commodity: "फसल चुनें",
+    selling_guidance_title: "किसान विक्रय मूल्य मार्गदर्शन",
+    mandi_disclaimer: "संकेतात्मक बाज़ार आधारित मूल्य मार्गदर्शन — यह गारंटीकृत विक्रय मूल्य नहीं है। किसान का मूल्य पर पूर्ण नियंत्रण है।",
+    admin_csv_import_title: "व्यवस्थापक नियंत्रण: आधिकारिक मंडी CSV डेटा आयात",
+    market_guidance_badge: "बाज़ार मार्गदर्शन"
   },
  
   bn: {
