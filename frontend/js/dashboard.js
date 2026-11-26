@@ -51,6 +51,51 @@ function renderRail(status) {
 async function initFarmer() {
   document.getElementById("farmer-view").style.display = "block";
 
+  // Mandi Selling-Price Guidance Integration (Phase 3)
+  const pNameInput = document.getElementById("p-name");
+  const pLocInput = document.getElementById("p-location");
+  const pGuidanceBox = document.getElementById("p-mandi-guidance");
+  const pRangeText = document.getElementById("p-mandi-range");
+
+  let debounceTimer = null;
+  async function fetchFarmerPriceGuidance() {
+    if (!pNameInput) return;
+    const rawName = pNameInput.value.trim();
+    if (!rawName || rawName.length < 2) {
+      if (pGuidanceBox) pGuidanceBox.style.display = "none";
+      return;
+    }
+
+    try {
+      const loc = pLocInput ? pLocInput.value.trim() : "";
+      const district = loc.includes(",") ? loc.split(",")[1].trim() : loc;
+      const params = new URLSearchParams({ commodity: rawName });
+      if (district) params.append("district", district);
+
+      const guidance = await apiRequest(`/analytics/selling-price-guidance?${params.toString()}`, { auth: false });
+      if (guidance && guidance.is_sufficient && guidance.suggested_min_price_kg) {
+        if (pGuidanceBox && pRangeText) {
+          pRangeText.textContent = `₹${guidance.suggested_min_price_kg.toFixed(2)} – ₹${guidance.suggested_max_price_kg.toFixed(2)} / kg`;
+          pGuidanceBox.style.display = "block";
+        }
+      } else {
+        if (pGuidanceBox) pGuidanceBox.style.display = "none";
+      }
+    } catch (e) {
+      if (pGuidanceBox) pGuidanceBox.style.display = "none";
+    }
+  }
+
+  if (pNameInput) {
+    pNameInput.addEventListener("input", () => {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(fetchFarmerPriceGuidance, 400);
+    });
+  }
+  if (pLocInput) {
+    pLocInput.addEventListener("blur", fetchFarmerPriceGuidance);
+  }
+
   document.getElementById("produce-form").addEventListener("submit", async (e) => {
     e.preventDefault();
     const msg = document.getElementById("produce-msg");
@@ -70,6 +115,7 @@ async function initFarmer() {
       });
       msg.innerHTML = `<div class="success-box">Listed on the platform.</div>`;
       document.getElementById("produce-form").reset();
+      if (pGuidanceBox) pGuidanceBox.style.display = "none";
       loadMyProduce();
     } catch(err) {
       msg.innerHTML = `<div class="error-box">${err.message}</div>`;
